@@ -1,0 +1,32 @@
+[
+  {
+    "id": -1,
+    "parentId": 0,
+    "name": "集成项目",
+    "icon": "project4",
+    "uri": "/",
+    "isLeaf": false
+  },
+  {
+    "id": 1,
+    "parentId": 0,
+    "name": "计算资源",
+    "icon": "jisuanziyuan",
+    "isLeaf": false
+  },
+  {
+    "id": 101,
+    "parentId": 0,
+    "name": "任务调度",
+    "icon": "renwutiaodu",
+    "isLeaf": false
+  },
+  {
+    "id": 200,
+    "name": "系统设置",
+    "icon": "setting",
+    "parentId": 0,
+    "uri": "/task",
+    "isLeaf": false
+  }
+]
