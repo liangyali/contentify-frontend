@@ -1,5 +1,5 @@
 <template>
-  <page-container title="车辆列表">
+  <page-container title="微信授权用户列表">
     <template v-slot:actions
       ><el-button
         type="default"
@@ -12,38 +12,32 @@
     >
     <el-card>
       <el-table
-        :data="cars.records || []"
+        :data="users.records || []"
         style="width: 100%"
         v-loading="loading"
       >
         <el-table-column prop="id" label="编号" width="100"> </el-table-column>
-        <el-table-column prop="status" label="车辆状态" width="100">
-        </el-table-column>
-        <el-table-column prop="carNumber" label="车牌号"> </el-table-column>
-        <el-table-column prop="model" label="车型"> </el-table-column>
-        <el-table-column prop="capacity" label="载客容量"> </el-table-column>
-        <el-table-column prop="vkt" label="行驶公里数"> </el-table-column>
-        <el-table-column prop="lastUseAt" label="最近使用时间" width="180">
-        </el-table-column>
-        <el-table-column prop="companyName" label="车辆所属公司" width="180">
-        </el-table-column>
-        <el-table-column prop="createdAt" label="创建时间" width="180">
-        </el-table-column>
-        <el-table-column prop="updatedAt" label="更新时间" width="180">
+        <el-table-column label="头像" width="100">
           <template slot-scope="scope">
-            {{ scope.row.updatedAt || "--" }}
+            <el-avatar :src="scope.row.avatarUrl"></el-avatar>
           </template>
         </el-table-column>
+        <el-table-column prop="nickname" label="微信昵称"> </el-table-column>
+        <el-table-column prop="phoneNumber" label="授权电话"> </el-table-column>
+        <el-table-column prop="openid" label="openid" width="250">
+        </el-table-column>
+        <el-table-column prop="unionid" label="unionid"> </el-table-column>
+        <el-table-column> </el-table-column>
       </el-table>
       <div class="pagination">
         <el-pagination
-          v-if="cars.total > 0"
+          v-if="users.total > 0"
           @current-change="handleCurrentChange"
-          :current-page="cars.current"
+          :current-page="users.current"
           :page-size="filter.pageSize"
           background
           layout="total,prev, pager, next"
-          :total="cars.total"
+          :total="users.total"
         ></el-pagination>
       </div>
     </el-card>
@@ -57,7 +51,7 @@ export default {
     return {
       filter: { pageSize: 12 },
       loading: false,
-      cars: {
+      users: {
         total: 0,
         pageNum: 1,
         pageSize: 1,
@@ -66,20 +60,20 @@ export default {
     };
   },
   created() {
-    this.getCars({
+    this.getUsers({
       ...this.$route.query,
     });
   },
   methods: {
     reload() {
-      this.getCars({
+      this.getUsers({
         ...this.$route.query,
       });
     },
-    getCars(params) {
+    getUsers(params) {
       this.loading = true;
       this.$axios
-        .get(`/api/v1/cars`, {
+        .get(`/api/v1/users/wx_users`, {
           params: {
             ...this.filter,
             ...this.$route.params,
@@ -90,7 +84,7 @@ export default {
           },
         })
         .then((res) => {
-          this.cars = {
+          this.users = {
             ...res.data.data,
           };
         })
@@ -108,7 +102,7 @@ export default {
         query: params,
       });
 
-      this.getCars(params);
+      this.getUsers(params);
     },
     handleFilterChange() {
       const params = {
@@ -121,7 +115,7 @@ export default {
         query: params,
       });
 
-      this.getCars(params);
+      this.getUsers(params);
     },
   },
 };

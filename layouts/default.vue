@@ -19,6 +19,7 @@
         <i class="el-icon-loading" />
       </div>
       <el-menu
+        style="margin-top: 10px"
         v-if="!menuLoading"
         :collapse="collapse"
         :collapse-transition="false"
@@ -30,35 +31,17 @@
       >
         <el-menu-item index="0-0" :route="{ path: '/' }">
           <svg-icon icon-class="home"></svg-icon>
-          <span slot="title">首页</span>
+          <span slot="title">欢迎页</span>
         </el-menu-item>
         <template v-for="menu in menus">
           <submenu :key="menu.id" :menu="menu"></submenu>
         </template>
       </el-menu>
+      <div class="footer-right" v-if="!collapse">麟客科技提供技术支持</div>
     </el-aside>
     <el-container>
       <el-header class="main-header" height="56px">
         <Hamburger @toggleClick="toggle" :isActive="!collapse"></Hamburger>
-        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <template v-for="menu in breadcrumb">
-            <el-breadcrumb-item
-              :to="{
-                path: menu.uri.includes('http')
-                  ? `/frame/?url=${menu.uri}`
-                  : '/' + menu.uri,
-              }"
-              :key="menu.id"
-              v-if="menu.uri"
-            >
-              {{ menu.name }}
-            </el-breadcrumb-item>
-            <el-breadcrumb-item :key="menu.id" v-else>{{
-              menu.name
-            }}</el-breadcrumb-item>
-          </template>
-        </el-breadcrumb> -->
         <div class="operate-list">
           <span style="margin: 0 5px; font-width: 600">
             当前登录:
@@ -69,6 +52,7 @@
           >
         </div>
       </el-header>
+
       <el-main class="main-content">
         <nuxt :keepAlive="false"></nuxt>
       </el-main>
@@ -184,7 +168,7 @@ body,
   margin-right: 5px;
   width: 24px;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   color: #cfd3e7 !important;
 }
 .main-aside .el-menu.el-menu--collapse .el-menu-item,
@@ -197,7 +181,7 @@ body,
 .main-container .main-content {
   padding: 0;
   height: 100%;
-  padding: 20px;
+  padding: 0px;
 }
 
 .logo-container {
@@ -240,6 +224,7 @@ body,
   margin-bottom: 15px;
   padding: 10px 15px;
   display: flex;
+  background: #fff;
   align-items: center;
 }
 
@@ -249,5 +234,15 @@ body,
 
 .el-drawer.rtl {
   overflow: scroll;
+}
+
+.footer-right {
+  position: absolute;
+  bottom: 0;
+  padding: 8px;
+  font-size: 10px;
+  color: #8289a8;
+  text-align: center;
+  width: 200px;
 }
 </style>

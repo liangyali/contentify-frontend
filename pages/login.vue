@@ -52,7 +52,10 @@ export default {
   layout: "empty",
   data() {
     return {
-      form: {},
+      form: {
+        username: "test",
+        password: "123456",
+      },
       loading: false,
       rules: {
         username: [
