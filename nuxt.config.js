@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'dache-manage-frontend',
+    title: '华北航线车辆运营管理系统',
     htmlAttrs: {
       lang: 'en'
     },
@@ -28,7 +28,8 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/icons',
-    '@/plugins/axios'
+    '@/plugins/axios',
+    '@/plugins/permission'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -1,7 +1,7 @@
 <template>
   <page-container title="车辆列表">
     <template v-slot:actions
-      ><el-button
+      ><CreateFormButton @success="reload" /><el-button
         type="default"
         size="mini"
         @click="reload"
@@ -22,16 +22,27 @@
         <el-table-column prop="carNumber" label="车牌号"> </el-table-column>
         <el-table-column prop="model" label="车型"> </el-table-column>
         <el-table-column prop="capacity" label="载客容量"> </el-table-column>
-        <el-table-column prop="vkt" label="行驶公里数"> </el-table-column>
+        <el-table-column prop="vkt" label="行驶公里数" width="150">
+        </el-table-column>
         <el-table-column prop="lastUseAt" label="最近使用时间" width="180">
         </el-table-column>
-        <el-table-column prop="companyName" label="车辆所属公司" width="180">
+        <el-table-column prop="companyName" label="车辆所属公司" width="200">
         </el-table-column>
         <el-table-column prop="createdAt" label="创建时间" width="180">
         </el-table-column>
         <el-table-column prop="updatedAt" label="更新时间" width="180">
           <template slot-scope="scope">
             {{ scope.row.updatedAt || "--" }}
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="180">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.row)"
+              >编辑</el-button
+            >
+            <el-button size="mini" @click="handleShowLogs(scope.row)"
+              >使用记录</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -47,16 +58,48 @@
         ></el-pagination>
       </div>
     </el-card>
+    <el-drawer
+      title="编辑"
+      width="650px"
+      :visible.sync="showVisiable"
+      direction="rtl"
+      append-to-body
+    >
+      <UpdateForm
+        :id="item.id"
+        @success="reload"
+        @cancel="showVisiable = false"
+      />
+    </el-drawer>
+    <el-drawer
+      title="使用记录"
+      size="800px"
+      :visible.sync="showLogsVisiable"
+      direction="rtl"
+      append-to-body
+    >
+      <car-use-logs
+        :id="item.id"
+        @success="reload"
+        @cancel="showLogsVisiable = false"
+      />
+    </el-drawer>
   </page-container>
 </template>
 
 <script>
 import qs from "qs";
+import CreateFormButton from "~/components/cars/CreateFormButton";
+import UpdateForm from "~/components/cars/UpdateForm";
+import CarUseLogs from "~/components/cars/CarUseLogs";
 export default {
   data() {
     return {
       filter: { pageSize: 12 },
       loading: false,
+      item: {},
+      showVisiable: false,
+      showLogsVisiable: false,
       cars: {
         total: 0,
         pageNum: 1,
@@ -64,6 +107,11 @@ export default {
         records: [],
       },
     };
+  },
+  components: {
+    CreateFormButton,
+    UpdateForm,
+    CarUseLogs,
   },
   created() {
     this.getCars({
@@ -122,6 +170,14 @@ export default {
       });
 
       this.getCars(params);
+    },
+    handleEdit(row) {
+      this.item = row;
+      this.showVisiable = true;
+    },
+    handleShowLogs(row) {
+      this.item = row;
+      this.showLogsVisiable = true;
     },
   },
 };

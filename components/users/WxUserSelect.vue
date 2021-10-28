@@ -29,6 +29,11 @@ export default {
   props: {
     value: {},
   },
+  watch: {
+    value(val) {
+      this.currentValue = val;
+    },
+  },
   created() {},
   data() {
     return {

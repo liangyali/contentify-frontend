@@ -42,6 +42,12 @@
         <el-table-column prop="staffNo" label="员工号" width="100">
         </el-table-column>
         <el-table-column prop="wxUserNickName" label="关联微信号" width="150">
+          <template slot-scope="scope">
+            <div v-if="scope.row.wxUserId == 0" style="color: red">未绑定</div>
+            <div v-if="scope.row.wxUserId != 0">
+              {{ scope.row.wxUserNickName }}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column prop="wxUserNickName" label="是否关联微信" width="150">
           <template slot-scope="scope">
@@ -95,16 +101,19 @@
         <el-table-column prop="updatedAt" label="更新时间" width="180">
         </el-table-column>
         <el-table-column> </el-table-column>
-        <el-table-column fixed="right" label="操作" width="160">
+        <el-table-column fixed="right" label="操作" width="250">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.row)"
               >编辑</el-button
             >
+            <el-button size="mini" @click="handleResetPassword(scope.row)"
+              >重置密码</el-button
+            >
             <el-popconfirm title="确定删除吗？" @confirm="doDelete(scope.row)">
               <el-button
                 slot="reference"
-                type="danger"
                 size="mini"
+                type="danger"
                 :loading="scope.row.deleting"
                 >删除</el-button
               >
@@ -117,7 +126,7 @@
           v-if="users.total > 0"
           @current-change="handleCurrentChange"
           :current-page="users.current"
-          :page-size="filter.pageSize"
+          :page-size="filter.pageSize - 0"
           background
           layout="total,prev, pager, next"
           :total="users.total"
@@ -138,6 +147,19 @@
       />
     </el-drawer>
     <el-drawer
+      title="重置密码"
+      width="650px"
+      :visible.sync="showResetPasswordVisiable"
+      direction="rtl"
+      append-to-body
+    >
+      <ResetPasswordForm
+        :item="resetPasswordItem"
+        @success="onRestPasswordSuccess"
+        @cancel="showResetPasswordVisiable = false"
+      />
+    </el-drawer>
+    <el-drawer
       title="关联微信"
       width="650px"
       :visible.sync="showBindVisiable"
@@ -154,9 +176,11 @@
 </template>
 
 <script>
+import qs from "qs";
 import CreateFormButton from "~/components/users/CreateFormButton";
 import UpdateForm from "~/components/users/UpdateForm";
 import BindForm from "~/components/users/BindForm";
+import ResetPasswordForm from "~/components/users/ResetPasswordForm";
 export default {
   data() {
     return {
@@ -164,8 +188,10 @@ export default {
       loading: false,
       item: {},
       bindItem: {},
+      resetPasswordItem: {},
       showVisiable: false,
       showBindVisiable: false,
+      showResetPasswordVisiable: false,
       users: {
         total: 0,
         pageNum: 1,
@@ -178,8 +204,13 @@ export default {
     CreateFormButton,
     UpdateForm,
     BindForm,
+    ResetPasswordForm,
   },
   created() {
+    this.filter = {
+      ...this.filter,
+      ...this.$route.query,
+    };
     this.getUsers({
       ...this.$route.query,
     });
@@ -198,6 +229,9 @@ export default {
             ...this.filter,
             ...this.$route.params,
             ...params,
+          },
+          paramsSerializer: (params) => {
+            return qs.stringify(params);
           },
         })
         .then((res) => {
@@ -238,6 +272,12 @@ export default {
       this.item = row;
       this.showVisiable = true;
     },
+    handleResetPassword(row) {
+      this.resetPasswordItem = {
+        ...row,
+      };
+      this.showResetPasswordVisiable = true;
+    },
     doUnbindWxUser(row) {
       row.deleting = true;
       this.$axios
@@ -269,6 +309,10 @@ export default {
     onBindSuccess() {
       this.reload();
       this.showBindVisiable = false;
+    },
+    onRestPasswordSuccess() {
+      this.reload();
+      this.showResetPasswordVisiable = false;
     },
   },
 };

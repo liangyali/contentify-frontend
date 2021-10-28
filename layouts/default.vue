@@ -44,8 +44,9 @@
         <Hamburger @toggleClick="toggle" :isActive="!collapse"></Hamburger>
         <div class="operate-list">
           <span style="margin: 0 5px; font-width: 600">
-            当前登录:
-            {{ this.$auth.user.staffNo }}【{{ this.$auth.user.realName }}】
+            <el-tag size="small"
+              >工号: &nbsp;{{ this.$auth.user.staffNo }}</el-tag
+            >
           </span>
           <el-button size="mini" round @click="logout" type="primary" plain
             >退出</el-button

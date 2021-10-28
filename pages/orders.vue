@@ -105,7 +105,7 @@
           v-if="orders.total > 0"
           @current-change="handleCurrentChange"
           :current-page="orders.current"
-          :page-size="filter.pageSize"
+          :page-size="filter.pageSize - 0"
           background
           layout="total,prev, pager, next"
           :total="orders.total"
@@ -131,6 +131,10 @@ export default {
     };
   },
   created() {
+    this.filter = {
+      ...this.filter,
+      ...this.$route.query,
+    };
     this.getOrders({
       ...this.$route.query,
     });
