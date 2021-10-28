@@ -4,7 +4,7 @@
       <div class="sub-title">{{ title }}</div>
       <div class="actions"><slot name="actions" /></div>
     </div>
-    <div class="content">
+    <div :class="padding ? 'content' : 'content-no-padding'">
       <slot></slot>
     </div>
   </div>
@@ -15,6 +15,9 @@ export default {
   props: {
     title: {
       default: () => "",
+    },
+    padding: {
+      default: () => true,
     },
   },
 };
@@ -38,6 +41,9 @@ export default {
 }
 .content {
   padding: 20px;
+}
+.content-no-padding {
+  padding: 0px;
 }
 .actions {
   min-width: 100px;

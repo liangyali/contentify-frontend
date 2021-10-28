@@ -29,7 +29,8 @@ export default {
     '@/plugins/element-ui',
     '@/plugins/icons',
     '@/plugins/axios',
-    '@/plugins/permission'
+    '@/plugins/permission',
+    '@/plugins/baidu-map'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

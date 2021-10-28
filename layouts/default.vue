@@ -141,6 +141,8 @@ body,
   border-bottom: 1px solid #e5e9f2;
   padding-left: 5px;
   background: #fff;
+  position: relative;
+  z-index: 2000;
 }
 .main-container .main-header .el-icon-menu:before {
   width: 20px;
