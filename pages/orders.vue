@@ -6,6 +6,8 @@
         size="mini"
         icon="el-icon-download
 "
+        @click="handleDownload"
+        :loading="downloading"
         >导出数据</el-button
       ><el-button
         type="default"
@@ -42,7 +44,7 @@
         style="width: 100%"
         v-loading="loading"
       >
-        <el-table-column prop="id" label="订单号" width="100">
+        <el-table-column prop="id" label="订单号" width="100" fixed="">
         </el-table-column>
         <el-table-column prop="realName" label="发起人" width="80">
         </el-table-column>
@@ -56,8 +58,9 @@
             {{ scope.row.carNumber || "--" }}
           </template>
         </el-table-column>
-        <el-table-column prop="createdAt" label="下单时间"> </el-table-column>
-        <el-table-column prop="driverReceiveTime" label="接单时间">
+        <el-table-column prop="createdAt" label="下单时间" width="180">
+        </el-table-column>
+        <el-table-column prop="driverReceiveTime" label="接单时间" width="180">
           <template slot-scope="scope">
             {{ scope.row.driverReceiveTime || "--" }}
           </template>
@@ -74,7 +77,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="目的点">
+        <el-table-column label="目的点" width="200">
           <template slot-scope="scope">
             <el-tag
               type="danger"
@@ -89,7 +92,8 @@
         </el-table-column>
         <el-table-column prop="orderStatusName" label="订单状态" width="100">
         </el-table-column>
-        <el-table-column prop="remark" label="备注"> </el-table-column>
+        <el-table-column prop="remark" label="备注" width="200">
+        </el-table-column>
         <!-- <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button
@@ -123,6 +127,7 @@ export default {
     return {
       filter: { pageSize: 12 },
       loading: false,
+      downloading: false,
       orders: {
         total: 0,
         pageNum: 1,
@@ -192,6 +197,37 @@ export default {
       });
 
       this.getOrders(params);
+    },
+    handleDownload() {
+      this.downloading = true;
+      const query = {
+        ...this.filter,
+        ...this.$route.query,
+      };
+      const url = "/api/v1/orders/export?" + qs.stringify(query);
+      this.$axios
+        .get(url, {
+          responseType: "blob",
+        })
+        .then((response) => {
+          const blob = new Blob([response.data], {
+            type: "application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "账户列表.xls";
+          link.click();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$notify.error({
+            title: "错误",
+            message: err.message,
+          });
+        })
+        .finally(() => {
+          this.downloading = false;
+        });
     },
   },
 };
