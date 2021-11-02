@@ -34,7 +34,6 @@
         <el-form-item>
           <el-button
             type="primary"
-            plain
             :loading="setting"
             @click="submitForm('form')"
             >保存设置</el-button

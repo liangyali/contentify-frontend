@@ -2,10 +2,10 @@
   <el-container class="main-container">
     <el-aside :width="!collapse ? '200px' : '48px'" class="main-aside">
       <div v-if="collapse == false" class="logo-container">
-        <img src="/img/logo.png" height="23" />
+        <img :src="getImgUrl('/img/logo.png')" height="23" />
       </div>
       <div v-if="collapse == true" class="logo-container">
-        <img src="/img/logo-mini.png" height="23" />
+        <img :src="getImgUrl('/img/logo-mini.png')" height="23" />
       </div>
       <div
         v-if="menuLoading"
@@ -37,7 +37,7 @@
           <submenu :key="menu.id" :menu="menu"></submenu>
         </template>
       </el-menu>
-      <div class="footer-right" v-if="!collapse">麟客科技提供技术支持</div>
+      <!-- <div class="footer-right" v-if="!collapse">麟客科技提供技术支持</div> -->
     </el-aside>
     <el-container>
       <el-header class="main-header" height="56px">
@@ -88,6 +88,9 @@ export default {
     ...mapActions({
       getMenus: "getMenus",
     }),
+    getImgUrl(url) {
+      return `${process.env.staticPrefix}${url}`;
+    },
   },
   mounted() {},
   computed: {
@@ -142,7 +145,7 @@ body,
   padding-left: 5px;
   background: #fff;
   position: relative;
-  z-index: 2000;
+  z-index: 2;
 }
 .main-container .main-header .el-icon-menu:before {
   width: 20px;

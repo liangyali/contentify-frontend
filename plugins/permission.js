@@ -5,7 +5,6 @@ export default function ({ store }) {
     function checkPermission(el, binding) {
         const { value } = binding
         const roles = store.state.auth.user && (store.state.auth.user.permissionValues || [])
-
         if (value && value instanceof Array) {
             const permissionRoles = value
             const hasPermission = roles.some(role => {

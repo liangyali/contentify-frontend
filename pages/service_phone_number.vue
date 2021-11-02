@@ -1,7 +1,7 @@
 <template>
   <page-container title="调度电话配置">
     <template v-slot:actions>
-      <el-button type="primary" size="mini" plain @click="handleAddNew()"
+      <el-button type="primary" size="mini" @click="handleAddNew()"
         >添加调度电话</el-button
       ><el-button
         type="default"

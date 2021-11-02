@@ -1,7 +1,10 @@
 <template>
   <page-container title="车辆列表">
     <template v-slot:actions
-      ><CreateFormButton @success="reload" /><el-button
+      ><CreateFormButton
+        @success="reload"
+        v-permission="['manage:cars']"
+      /><el-button
         type="default"
         size="mini"
         @click="reload"
@@ -17,7 +20,15 @@
         v-loading="loading"
       >
         <el-table-column prop="id" label="编号" width="100"> </el-table-column>
-        <el-table-column prop="status" label="车辆状态" width="100">
+        <el-table-column prop="statusName" label="车辆状态" width="100">
+          <template slot-scope="scope">
+            <el-tag type="success" size="mini" v-if="scope.row.status == 1">{{
+              scope.row.statusName
+            }}</el-tag>
+            <el-tag type="danger" size="mini" v-if="scope.row.status == 2">{{
+              scope.row.statusName
+            }}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column prop="carNumber" label="车牌号"> </el-table-column>
         <el-table-column prop="model" label="车型"> </el-table-column>
@@ -37,7 +48,10 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="180">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.row)"
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.row)"
+              v-permission="['manage:cars']"
               >编辑</el-button
             >
             <el-button size="mini" @click="handleShowLogs(scope.row)"

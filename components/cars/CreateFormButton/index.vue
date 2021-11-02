@@ -37,6 +37,16 @@
               autocomplete="off"
             ></el-input>
           </el-form-item>
+          <el-form-item label="状态" prop="status">
+            <el-switch
+              v-model="form.status"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="AVAILABLE"
+              inactive-value="UNAVAILABLE"
+            >
+            </el-switch>
+          </el-form-item>
           <el-form-item label="所属公司" prop="companyName">
             <el-select
               v-model="form.companyName"

@@ -33,10 +33,9 @@
       <el-form-item>
         <el-button
           type="primary"
-          plain
           :loading="updating"
           @click="submitForm('form')"
-          >更新数据</el-button
+          >保存数据</el-button
         >
         <el-button type="info" plain @click="handleClose">取消</el-button>
       </el-form-item>

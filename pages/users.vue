@@ -1,7 +1,10 @@
 <template>
   <page-container title="用户列表">
     <template v-slot:actions
-      ><CreateFormButton @success="reload" /><el-button
+      ><CreateFormButton
+        @success="reload"
+        v-permission="['manage:users']"
+      /><el-button
         type="default"
         size="mini"
         @click="reload"
@@ -51,7 +54,7 @@
         </el-table-column>
         <el-table-column prop="wxUserNickName" label="是否关联微信" width="150">
           <template slot-scope="scope">
-            <div v-if="scope.row.wxUserId == 0">
+            <div v-if="scope.row.wxUserId == 0" v-permission="['manage.users']">
               <el-button
                 icon="el-icon-link"
                 type="primary"
@@ -60,7 +63,7 @@
                 >关联微信</el-button
               >
             </div>
-            <div v-if="scope.row.wxUserId != 0">
+            <div v-if="scope.row.wxUserId != 0" v-permission="['manage.users']">
               <el-popconfirm
                 title="确认取消微信绑定"
                 @confirm="doUnbindWxUser(scope.row)"
@@ -103,13 +106,23 @@
         <el-table-column> </el-table-column>
         <el-table-column fixed="right" label="操作" width="250">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.row)"
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.row)"
+              v-permission="['manage:users']"
               >编辑</el-button
             >
-            <el-button size="mini" @click="handleResetPassword(scope.row)"
+            <el-button
+              size="mini"
+              @click="handleResetPassword(scope.row)"
+              v-permission="['manage:users']"
               >重置密码</el-button
             >
-            <el-popconfirm title="确定删除吗？" @confirm="doDelete(scope.row)">
+            <el-popconfirm
+              title="确定删除吗？"
+              @confirm="doDelete(scope.row)"
+              v-permission="['manage:users']"
+            >
               <el-button
                 slot="reference"
                 size="mini"

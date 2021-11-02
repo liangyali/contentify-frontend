@@ -56,7 +56,7 @@
             {{ scope.row.carNumber || "--" }}
           </template>
         </el-table-column>
-        <el-table-column prop="createdAt" label="呼叫时间"> </el-table-column>
+        <el-table-column prop="createdAt" label="下单时间"> </el-table-column>
         <el-table-column prop="driverReceiveTime" label="接单时间">
           <template slot-scope="scope">
             {{ scope.row.driverReceiveTime || "--" }}
@@ -87,9 +87,10 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="orderStatus" label="订单状态" width="100">
+        <el-table-column prop="orderStatusName" label="订单状态" width="100">
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column prop="remark" label="备注"> </el-table-column>
+        <!-- <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -98,7 +99,7 @@
               >手工分配</el-button
             >
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
       <div class="pagination">
         <el-pagination

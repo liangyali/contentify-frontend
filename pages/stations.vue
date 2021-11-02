@@ -1,21 +1,18 @@
 <template>
-  <page-container title="位置管理" :padding="false">
+  <page-container title="车站管理" :padding="false">
     <template v-slot:actions
-      ><el-button
+      ><CreateFormButton @success="reload" /><el-button
         type="default"
         size="mini"
         icon="el-icon-refresh
 "
+        @click="reload"
         >刷新</el-button
       ></template
     >
     <div>
-      <div class="title">
-        <img src="/img/logo.png" width="100" />
-      </div>
       <baidu-map
         class="bm-view"
-        ref="baiduMap"
         :center="center"
         :zoom="zoom"
         @ready="handler"
@@ -35,10 +32,11 @@
         ><bm-marker
           v-for="location in locations"
           :key="location.id"
-          :dragging="true"
+          :dragging="false"
           @dragging="handleDragging"
+          @dblclick="handleEdit(location)"
           :icon="{
-            url: '/img/marker.png',
+            url: getImgUrl('/img/marker.png'),
             size: { width: 32, height: 32 },
           }"
           :position="{ lng: location.longitude, lat: location.latitude }"
@@ -58,17 +56,35 @@
             :offset="{ width: 5, height: 34 }" /></bm-marker
       ></baidu-map>
     </div>
+
+    <el-drawer
+      title="编辑停车点"
+      size="90%"
+      :visible.sync="showEditVisiable"
+      direction="rtl"
+      append-to-body
+    >
+      <UpdateForm
+        :id="item.id"
+        @success="onEditSuccess"
+        @cancel="showEditVisiable = false"
+      />
+    </el-drawer>
   </page-container>
 </template>
 <script>
-import locations from "./locations.json";
-
+import CreateFormButton from "~/components/stations/CreateFormButton";
+import UpdateForm from "~/components/stations/UpdateForm";
 export default {
   data() {
     return {
       center: { lng: 0, lat: 0 },
       zoom: 18,
+      loading: true,
       locations: [],
+      item: {},
+      showEditVisiable: false,
+      loading: false,
       mapStyle: {
         style: "grayscale",
       },
@@ -76,12 +92,19 @@ export default {
     };
   },
   created() {
-    setTimeout(() => {
-      this.locations = locations;
-    }, 500);
+    this.loadStations();
   },
-  components: {},
+  components: {
+    UpdateForm,
+    CreateFormButton,
+  },
   methods: {
+    reload() {
+      this.loadStations();
+    },
+    getImgUrl(url) {
+      return `${process.env.staticPrefix}${url}`;
+    },
     handler({ BMap, map }) {
       this.center.lng = 116.60958198060929;
       this.center.lat = 40.086415358916604;
@@ -89,6 +112,28 @@ export default {
     },
     handleDragging({ type, target, pixel, point }) {
       this.$EventBus.$emit("locationChange", point);
+    },
+    loadStations() {
+      this.loading = true;
+      this.$axios
+        .get("/api/v1/stations")
+        .then((res) => {
+          this.locations = res.data.data || [];
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    handleEdit(item) {
+      this.item = {
+        ...item,
+      };
+      this.showEditVisiable = true;
+      console.log(item);
+    },
+    onEditSuccess() {
+      this.loadStations();
+      this.showEditVisiable = false;
     },
   },
 };

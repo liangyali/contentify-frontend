@@ -37,7 +37,6 @@
         <el-form-item>
           <el-button
             type="primary"
-            plain
             :loading="creating"
             @click="submitForm('form')"
             >修改密码</el-button

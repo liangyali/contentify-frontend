@@ -1,7 +1,10 @@
 <template>
   <page-container title="角色列表">
     <template v-slot:actions
-      ><CreateFormButton @success="reload" /><el-button
+      ><CreateFormButton
+        @success="reload"
+        v-permission="['manage:roles']"
+      /><el-button
         type="default"
         size="mini"
         @click="reload"
@@ -33,11 +36,19 @@
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.row)"
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.row)"
+              v-permission="['manage:roles']"
               >编辑</el-button
             >
-            <el-popconfirm title="确定删除吗？" @confirm="doDelete(scope.row)">
+            <el-popconfirm
+              title="确定删除吗？"
+              @confirm="doDelete(scope.row)"
+              v-permission="['manage:roles']"
+            >
               <el-button
+                v-permission="['manage:roles']"
                 slot="reference"
                 type="danger"
                 size="mini"

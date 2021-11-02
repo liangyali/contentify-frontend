@@ -49,7 +49,7 @@
 <script>
 export default {
   name: "login",
-  layout: "empty",
+  layout: "full",
   data() {
     return {
       form: {

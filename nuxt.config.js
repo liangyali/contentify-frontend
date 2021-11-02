@@ -30,7 +30,8 @@ export default {
     '@/plugins/icons',
     '@/plugins/axios',
     '@/plugins/permission',
-    '@/plugins/baidu-map'
+    '@/plugins/baidu-map',
+    '@/plugins/vue-timers'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,7 +39,11 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+
   ],
+  static: {
+    preffix: '/test/'
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -49,7 +54,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:50003',
+    baseURL: process.env.baseURL || 'http://localhost:50003',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -87,6 +92,9 @@ export default {
   router: {
     mode: 'hash',
     middleware: ['auth'],
-    base: process.env.NODE_ENV === 'production' ? '' : '',
+    base: process.env.NODE_ENV === 'production' ? '/dache' : '',
   },
+  env: {
+    staticPrefix: process.env.NODE_ENV === 'production' ? '/dache' : ''
+  }
 }

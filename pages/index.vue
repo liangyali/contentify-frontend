@@ -1,19 +1,29 @@
 <template>
   <section class="container">
-    <div><img src="/img/logo.png" height="60" /></div>
+    <div style="margin-top: -150px">
+      <img :src="getImgUrl('/img/logo.png')" height="60" />
+    </div>
     <div class="t-title">华北航线智能叫车调度系统</div>
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    getImgUrl(url) {
+      return `${process.env.staticPrefix}${url}`;
+    },
+  },
+};
 </script>
 
 <style scoped>
 .container {
-  padding-top: 200px;
   display: flex;
+  /* background: #fff; */
   flex-direction: column;
+  height: 100%;
+  flex: auto;
   justify-content: center;
   align-items: center;
   text-align: center;
