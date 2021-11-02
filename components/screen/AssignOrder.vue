@@ -64,7 +64,7 @@ export default {
     loadData() {
       this.loading = true;
       this.$axios
-        .get("/api/v1/users/active_drivers")
+        .get("/api/v1/overview/active_drivers")
         .then((res) => {
           this.items = res.data.data || {};
         })
@@ -75,7 +75,7 @@ export default {
     handleAssign(item) {
       item.assiging = true;
       this.$axios
-        .post(`/api/v1/orders/${this.id}/assign/${item.id}`)
+        .post(`/api/v1/overview/${this.id}/assign/${item.id}`)
         .then(() => {
           this.$emit("success");
           this.$emit("cancel");

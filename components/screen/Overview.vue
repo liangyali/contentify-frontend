@@ -25,7 +25,7 @@
 <script>
 export default {
   timers: {
-    loadData: { time: 5000, repeat: true, autostart: true },
+    loadData: { time: 10000, repeat: true, autostart: true },
   },
   created() {
     this.loadData();

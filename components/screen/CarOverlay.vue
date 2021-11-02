@@ -6,19 +6,29 @@
     @draw="draw"
   >
     <div class="marker-di">&nbsp;</div>
-    <div class="container">
+    <div class="container" @click="handleClick">
       <div class="icon"><img :src="getImgUrl('/img/che.png')" /></div>
-      <div class="text-container" @click="handleClick">
-        <div class="text">{{ title }}</div>
-        <div class="text">测试</div>
+      <div class="text-container">
+        <div class="text">{{ item.carNumber }}</div>
+        <div class="text">司机:{{ item.realName }}</div>
       </div>
     </div>
+    <el-drawer
+      :title="item.carNumber + '进行中订单列表'"
+      size="30%"
+      :visible.sync="showVisiable"
+      direction="rtl"
+      append-to-body
+    >
+      <CarOrderList :carId="item.carId" />
+    </el-drawer>
   </bm-overlay>
 </template>
 
 <script>
+import CarOrderList from "./CarOrderList";
 export default {
-  props: ["text", "position", "active", "title", "type"],
+  props: ["text", "position", "active", "item", "type"],
   watch: {
     position: {
       handler() {
@@ -27,12 +37,20 @@ export default {
       deep: true,
     },
   },
+  data() {
+    return {
+      showVisiable: false,
+    };
+  },
+  components: {
+    CarOrderList,
+  },
   methods: {
     getImgUrl(url) {
       return `${process.env.staticPrefix}${url}`;
     },
     handleClick() {
-      global.alert("Well done.");
+      this.showVisiable = true;
     },
     draw({ el, BMap, map }) {
       const { lng, lat } = this.position;
@@ -74,7 +92,7 @@ export default {
   flex-direction: column;
 }
 .text-container .text {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 500;
   line-height: 15px;
 }

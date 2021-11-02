@@ -6,6 +6,9 @@
       <el-button class="back-button" size="mini" @click="goHome"
         >切换到后台管理</el-button
       >
+      <el-button class="car-button" size="mini" @click="handleShowCarInfo"
+        >出车车辆信息</el-button
+      >
     </div>
     <baidu-map
       class="bm-view"
@@ -41,10 +44,13 @@
         >
         </DownOverlay>
       </div>
-      <div v-for="(car, index) in cars" :key="'c1' + index">
+      <div v-for="(activeDriver, index) in activeDrivers" :key="'c1' + index">
         <CarOverlay
-          :title="car.carNumber"
-          :position="{ lng: car.longitude, lat: car.latitude }"
+          :item="activeDriver"
+          :position="{
+            lng: activeDriver.longitude,
+            lat: activeDriver.latitude,
+          }"
           @mouseover.native="active = true"
           @mouseleave.native="active = false"
         >
@@ -81,6 +87,15 @@
       @upClick="handleStationClick"
       @downClick="handleStationClick"
     />
+    <el-drawer
+      title="出车车辆信息"
+      size="30%"
+      :visible.sync="showCarVisiable"
+      direction="rtl"
+      append-to-body
+    >
+      <CarInfo @clickLocation="handleClickCarLocation" />
+    </el-drawer>
   </div>
 </template>
 
@@ -91,6 +106,7 @@ import UpOverlay from "~/components/screen/UpOverlay";
 import DownOverlay from "~/components/screen/DownOverlay";
 import CarOverlay from "~/components/screen/CarOverlay";
 import AssignOrder from "~/components/screen/AssignOrder";
+import CarInfo from "~/components/screen/CarInfo";
 export default {
   layout: "full",
   components: {
@@ -100,17 +116,21 @@ export default {
     DownOverlay,
     CarOverlay,
     AssignOrder,
+    CarInfo,
   },
-  created() {},
+  created() {
+    this.loadActiveDrivers();
+  },
   timers: {
-    loadCars: { time: 1000, repeat: true, autostart: true },
+    loadActiveDrivers: { time: 3000, repeat: true, autostart: true },
   },
   data() {
     return {
+      showCarVisiable: false,
       center: { lng: 0, lat: 0 },
       zoom: 18,
       showVisiable: false,
-      cars: [],
+      activeDrivers: [],
       locations: [],
       upStations: [],
       downStations: [],
@@ -124,9 +144,9 @@ export default {
     getImgUrl(url) {
       return `${process.env.staticPrefix}${url}`;
     },
-    loadCars() {
-      this.$axios.get("/api/v1/cars/active").then((res) => {
-        this.cars = res.data.data || [];
+    loadActiveDrivers() {
+      this.$axios.get("/api/v1/overview/active_drivers").then((res) => {
+        this.activeDrivers = res.data.data || [];
       });
     },
     handler({ BMap, map }) {
@@ -170,6 +190,14 @@ export default {
       this.center.lat = item.lat;
       this.zoom = 16;
     },
+    handleShowCarInfo() {
+      this.showCarVisiable = true;
+    },
+    handleClickCarLocation(location) {
+      this.center.lng = location.lng;
+      this.center.lat = location.lat;
+      this.zoom = 16;
+    },
   },
 };
 </script>
@@ -195,6 +223,10 @@ export default {
   border-bottom: 1px solid rgb(251, 250, 250);
 }
 .back-button {
+  position: absolute;
+  left: 20px;
+}
+.car-button {
   position: absolute;
   right: 20px;
 }

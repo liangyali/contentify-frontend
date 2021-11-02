@@ -1,13 +1,13 @@
 <template>
-  <el-card shadow="hover" style="margin: 10px"
-    ><div>
+  <el-card style="margin: 5px" :class="selected ? 'selected' : ''"
+    ><div @click="handleClick">
       <div class="header">
-        <div class="title">
+        <div class="order-title">
           {{ orderItem.realName }} - {{ format(orderItem.createdAt) }}叫车 ({{
             orderItem.number
           }}人)
         </div>
-        <div class="status">{{ orderItem.orderStatusName }}</div>
+        <div class="status">接单超时</div>
       </div>
       <div class="body">
         <div class="station">
@@ -35,7 +35,15 @@
           </div>
         </div>
         <div class="action">
-          <div style="line-height: 60px"></div>
+          <div style="line-height: 60px">
+            <el-button
+              size="mini"
+              v-permission="['manage:screen']"
+              type="primary"
+              @click="handleAssign"
+              >人工分配</el-button
+            >
+          </div>
         </div>
       </div>
       <div class="remark" v-if="orderItem.remark && orderItem.remark != ''">
@@ -53,6 +61,9 @@ export default {
   props: {
     orderItem: {
       default: () => {},
+    },
+    selected: {
+      default: () => false,
     },
   },
   methods: {
@@ -102,12 +113,12 @@ export default {
   border: 2px solid #046409 !important;
 }
 .status {
-  width: 100px;
+  width: 60px;
+  color: #f56c6c;
   display: flex;
   font-weight: 600;
-  text-align: right;
 }
-.title {
+.order-title {
   display: flex;
   flex-grow: 1;
 }

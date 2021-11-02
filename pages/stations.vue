@@ -139,7 +139,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .bm-view {
   position: relative;
   top: 0;
@@ -147,21 +147,5 @@ export default {
   height: 90vh;
   bottom: 100px;
   z-index: 1;
-}
-
-.title {
-  position: absolute;
-  z-index: 100000;
-  width: 400px;
-  top: 0;
-  left: 50%;
-  margin-left: -200px;
-  font-weight: 600;
-  font-size: 24px;
-  background: #fff;
-  opacity: 0.9;
-  padding: 10px;
-  text-align: center;
-  border-radius: 0px 0px 10px 10px;
 }
 </style>

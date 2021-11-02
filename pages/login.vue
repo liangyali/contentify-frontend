@@ -10,7 +10,7 @@
       @keyup.enter.native="handleSubmit('loginForm')"
     >
       <div style="text-align: center" class="logo">
-        <img src="/img/logo.png" height="50" />
+        <img :src="getImgUrl('/img/logo.png')" height="50" />
       </div>
       <div class="login-title">华北航线车辆调度运营系统v1.0</div>
       <el-form-item prop="username">
@@ -95,6 +95,9 @@ export default {
             this.loading = false;
           });
       });
+    },
+    getImgUrl(url) {
+      return `${process.env.staticPrefix}${url}`;
     },
   },
 };

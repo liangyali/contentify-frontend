@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="order-container">
-      <OrderCard
+      <AssignOrderCard
         :orderItem="orderItem"
         v-for="(orderItem, index) in item.timeoutOrders"
         :key="'card' + index"
