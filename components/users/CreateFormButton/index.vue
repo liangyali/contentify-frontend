@@ -70,6 +70,30 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="所属大队" prop="dd">
+            <el-input
+              type="text"
+              v-model="form.dd"
+              :maxlength="50"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="所属中队" prop="zd">
+            <el-input
+              type="text"
+              v-model="form.zd"
+              :maxlength="50"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="所属班组" prop="bz">
+            <el-input
+              type="text"
+              v-model="form.bz"
+              :maxlength="50"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
           <el-form-item>
             <el-button
               type="primary"

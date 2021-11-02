@@ -1,6 +1,9 @@
 <template>
   <div style="padding: 15px">
-    <div class="title">总共{{ total }}个订单</div>
+    <div class="title">
+      总共{{ total }}个订单
+      <el-button size="mini" @click="reload">更新数据</el-button>
+    </div>
     <OrderCard :orderItem="item" v-for="item in items" :key="item.id" />
   </div>
 </template>
@@ -35,6 +38,9 @@ export default {
   },
 
   methods: {
+    reload() {
+      this.loadData();
+    },
     loadData() {
       if (!this.carId) {
         return;
