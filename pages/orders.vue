@@ -28,12 +28,12 @@
             clearable=""
             @change="handleFilterChange"
           >
-            <el-option label="待接单" value="PENDING"> </el-option>
-            <el-option label="司机已接单" value="DRIVER_RECEIVED"> </el-option>
-            <el-option label="司机已到上车点" value="DRIVER_READY"> </el-option>
-            <el-option label="乘客已上车" value="USER_READY"> </el-option>
-            <el-option label="到达目的地" value="COMPLETED"> </el-option>
-            <el-option label="已取消" value="CANCELED"> </el-option>
+            <el-option label="待接单" value="1"> </el-option>
+            <el-option label="司机已接单" value="2"> </el-option>
+            <el-option label="司机已到上车点" value="3"> </el-option>
+            <el-option label="乘客已上车" value="4"> </el-option>
+            <el-option label="到达目的地" value="5"> </el-option>
+            <el-option label="已取消" value="6"> </el-option>
           </el-select>
         </el-form-item>
       </div>
@@ -215,7 +215,7 @@ export default {
           });
           const link = document.createElement("a");
           link.href = window.URL.createObjectURL(blob);
-          link.download = "账户列表.xls";
+          link.download = "订单列表.xls";
           link.click();
         })
         .catch((err) => {

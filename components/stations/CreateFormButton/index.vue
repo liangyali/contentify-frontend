@@ -51,7 +51,7 @@
                   :dragging="true"
                   @dragging="handleDragging"
                   :icon="{
-                    url: '/img/marker.png',
+                    url: getImgUrl('/img/marker.png'),
                     size: { width: 32, height: 32 },
                   }"
                   :position="{ lng: form.longitude, lat: form.latitude }"
@@ -140,6 +140,9 @@ export default {
     handleClose() {
       this.showVisiable = false;
       this.$emit("cancel");
+    },
+    getImgUrl(url) {
+      return `${process.env.staticPrefix}${url}`;
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
