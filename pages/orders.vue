@@ -36,6 +36,18 @@
             <el-option label="已取消" value="6"> </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="下单时间段" label-width="100px">
+          <el-date-picker
+            v-model="filter.range"
+            type="datetimerange"
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            @change="handleFilterChange"
+          >
+          </el-date-picker>
+        </el-form-item>
       </div>
     </el-form>
     <el-card>
@@ -153,11 +165,21 @@ export default {
     },
     getOrders(params) {
       this.loading = true;
+
+      if (params.range) {
+        const range = params.range;
+        params = {
+          ...params,
+          begin: range[0],
+          end: range[1],
+          range: undefined,
+        };
+      }
+
       this.$axios
         .get(`/api/v1/orders`, {
           params: {
             ...this.filter,
-            ...this.$route.params,
             ...params,
           },
           paramsSerializer: (params) => {
@@ -185,6 +207,7 @@ export default {
 
       this.getOrders(params);
     },
+
     handleFilterChange() {
       const params = {
         ...this.$route.query,
@@ -200,10 +223,19 @@ export default {
     },
     handleDownload() {
       this.downloading = true;
-      const query = {
+      let query = {
         ...this.filter,
         ...this.$route.query,
       };
+      if (query.range) {
+        const range = query.range;
+        query = {
+          ...query,
+          begin: range[0],
+          end: range[1],
+          range: undefined,
+        };
+      }
       const url = "/api/v1/orders/export?" + qs.stringify(query);
       this.$axios
         .get(url, {
