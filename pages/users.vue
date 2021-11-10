@@ -54,7 +54,7 @@
         </el-table-column>
         <el-table-column prop="wxUserNickName" label="是否关联微信" width="150">
           <template slot-scope="scope">
-            <div v-if="scope.row.wxUserId == 0" v-permission="['manage.users']">
+            <div v-if="scope.row.wxUserId == 0" v-permission="['manage:users']">
               <el-button
                 icon="el-icon-link"
                 type="primary"
@@ -63,7 +63,7 @@
                 >关联微信</el-button
               >
             </div>
-            <div v-if="scope.row.wxUserId != 0" v-permission="['manage.users']">
+            <div v-if="scope.row.wxUserId != 0" v-permission="['manage:users']">
               <el-popconfirm
                 title="确认取消微信绑定"
                 @confirm="doUnbindWxUser(scope.row)"

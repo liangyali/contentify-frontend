@@ -10,7 +10,7 @@
       <div class="icon"><img :src="getImgUrl('/img/che.png')" /></div>
       <div class="text-container">
         <div class="text">{{ item.carNumber }}</div>
-        <div class="text">司机:{{ item.realName }}</div>
+        <div class="text">{{ item.realName }}</div>
       </div>
     </div>
     <el-drawer

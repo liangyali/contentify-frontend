@@ -100,7 +100,7 @@
 
 <script>
 import RegionSelect from "~/components/selects/RegionSelect";
-
+import { toBD09ForItem, toGCJ02ForItem } from "~/utils";
 export default {
   components: {},
   data() {
@@ -150,7 +150,7 @@ export default {
           this.creating = true;
           this.$axios
             .post(`/api/v1/stations`, {
-              ...this.form,
+              ...toGCJ02ForItem(this.form),
             })
             .then((res) => {
               if (res.data.code == 200) {

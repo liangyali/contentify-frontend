@@ -100,6 +100,7 @@
 
 <script>
 import RegionSelect from "~/components/selects/RegionSelect";
+import { toBD09ForItem, toGCJ02ForItem } from "~/utils";
 export default {
   props: {
     id: {
@@ -163,7 +164,7 @@ export default {
         .get(`/api/v1/stations/${this.id}`)
         .then((res) => {
           this.form = {
-            ...res.data.data,
+            ...toBD09ForItem(res.data.data),
           };
           this.center = {
             lng: this.form.longitude || 0,
@@ -181,7 +182,7 @@ export default {
           this.updating = true;
           this.$axios
             .post(`/api/v1/stations/${this.id}`, {
-              ...this.form,
+              ...toGCJ02ForItem(this.form),
             })
             .then((res) => {
               if (res.data.code == 200) {

@@ -75,6 +75,7 @@
 <script>
 import CreateFormButton from "~/components/stations/CreateFormButton";
 import UpdateForm from "~/components/stations/UpdateForm";
+import { toBD09ForList } from "~/utils";
 export default {
   data() {
     return {
@@ -118,18 +119,18 @@ export default {
       this.$axios
         .get("/api/v1/stations")
         .then((res) => {
-          this.locations = res.data.data || [];
+          this.locations = toBD09ForList(res.data.data || []);
         })
         .finally(() => {
           this.loading = false;
         });
     },
+
     handleEdit(item) {
       this.item = {
         ...item,
       };
       this.showEditVisiable = true;
-      console.log(item);
     },
     onEditSuccess() {
       this.loadStations();

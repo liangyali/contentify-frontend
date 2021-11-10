@@ -12,7 +12,7 @@
       <div style="text-align: center" class="logo">
         <img :src="getImgUrl('/img/logo.png')" height="50" />
       </div>
-      <div class="login-title">华北航线车辆调度运营系统v1.0</div>
+      <div class="login-title">来巴(Line Bus)运营管理平台</div>
       <el-form-item prop="username">
         <el-input
           type="text"

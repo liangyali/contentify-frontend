@@ -11,7 +11,7 @@
         label-position="top"
       >
         <el-form-item
-          label="司机接单超时时间(分)"
+          label="司机接单超时时长"
           prop="driverReceiveTimeoutMinutes"
         >
           <el-input
@@ -29,6 +29,27 @@
             style="width: 200px"
           >
             <template slot="append">人</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item
+          label="司机端出车操作需要停留的时长"
+          prop="orderMaxNumber"
+        >
+          <el-input
+            placeholder="请输入内容"
+            v-model.number="form.checkSeconds"
+            style="width: 200px"
+          >
+            <template slot="append">秒</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="待接单订单显示的时长" prop="orderMaxNumber">
+          <el-input
+            placeholder="请输入内容"
+            v-model.number="form.pendingOrderShowSeconds"
+            style="width: 200px"
+          >
+            <template slot="append">秒</template>
           </el-input>
         </el-form-item>
         <el-form-item>

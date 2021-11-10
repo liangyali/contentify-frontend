@@ -58,17 +58,19 @@
       >
         <el-table-column prop="id" label="订单号" width="100" fixed="">
         </el-table-column>
-        <el-table-column prop="realName" label="发起人" width="80">
+        <el-table-column prop="realName" label="发起人" width="120">
         </el-table-column>
-        <el-table-column prop="driverName" label="接单人" width="80">
+        <el-table-column prop="driverName" label="接单人" width="120">
           <template slot-scope="scope">
             {{ scope.row.driverName || "--" }}
           </template>
         </el-table-column>
-        <el-table-column prop="carNumber" label="车牌号" width="80">
+        <el-table-column prop="carNumber" label="车牌号" width="120">
           <template slot-scope="scope">
             {{ scope.row.carNumber || "--" }}
           </template>
+        </el-table-column>
+        <el-table-column prop="orderStatusName" label="订单状态" width="100">
         </el-table-column>
         <el-table-column prop="createdAt" label="下单时间" width="180">
         </el-table-column>
@@ -77,7 +79,7 @@
             {{ scope.row.driverReceiveTime || "--" }}
           </template>
         </el-table-column>
-        <el-table-column prop="closeTime" label="结束时间">
+        <el-table-column prop="closeTime" label="结束时间" width="180">
           <template slot-scope="scope">
             {{ scope.row.closeTime || "--" }}
           </template>
@@ -102,8 +104,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="orderStatusName" label="订单状态" width="100">
-        </el-table-column>
+
         <el-table-column prop="remark" label="备注" width="200">
         </el-table-column>
         <!-- <el-table-column fixed="right" label="操作" width="100">

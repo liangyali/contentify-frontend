@@ -2,7 +2,7 @@
   <div v-loading="loading">
     <div class="header">
       <img :src="getImgUrl('/img/logo.png')" width="80" />
-      <span>华北车辆调度中心</span>
+      <span>来巴 Line Bus</span>
       <el-button class="back-button" size="mini" @click="goHome"
         >切换到后台管理</el-button
       >
@@ -22,12 +22,10 @@
         <UpOverlay
           :title="location.name"
           :position="{
-            lat: location.lat,
-            lng: location.lng,
+            lat: location.latitude,
+            lng: location.longitude,
           }"
           :type="location.type"
-          @mouseover.native="active = true"
-          @mouseleave.native="active = false"
         >
         </UpOverlay>
       </div>
@@ -35,12 +33,10 @@
         <DownOverlay
           :title="location.name"
           :position="{
-            lat: location.lat,
-            lng: location.lng,
+            lat: location.latitude,
+            lng: location.longitude,
           }"
           :type="location.type"
-          @mouseover.native="active = true"
-          @mouseleave.native="active = false"
         >
         </DownOverlay>
       </div>
@@ -51,8 +47,6 @@
             lng: activeDriver.longitude,
             lat: activeDriver.latitude,
           }"
-          @mouseover.native="active = true"
-          @mouseleave.native="active = false"
         >
         </CarOverlay>
       </div>
@@ -64,18 +58,6 @@
         anchor="BMAP_ANCHOR_BOTTOM_RIGHT"
         :isOpen="false"
       ></bm-overview-map>
-      <bm-marker
-        v-for="(location, index) in locations"
-        :key="index"
-        :dragging="false"
-        :icon="{
-          url: getImgUrl('/img/green.png'),
-          size: { width: 64, height: 64 },
-        }"
-        :position="{ lng: location.longitude, lat: location.latitude }"
-        :labelStyle="{ color: 'red', fontSize: '12px', border: 0 }"
-      >
-      </bm-marker>
       <bm-map-type
         :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
         anchor="BMAP_ANCHOR_TOP_LEFT"
@@ -107,6 +89,7 @@ import DownOverlay from "~/components/screen/DownOverlay";
 import CarOverlay from "~/components/screen/CarOverlay";
 import AssignOrder from "~/components/screen/AssignOrder";
 import CarInfo from "~/components/screen/CarInfo";
+import { toBD09ForList } from "~/utils";
 export default {
   layout: "full",
   components: {
@@ -131,7 +114,6 @@ export default {
       zoom: 18,
       showVisiable: false,
       activeDrivers: [],
-      locations: [],
       upStations: [],
       downStations: [],
       loading: true,
@@ -159,28 +141,28 @@ export default {
       this.$router.push("/");
     },
     handleClick(item) {
-      this.upStations = [
+      this.upStations = toBD09ForList([
         {
           id: item.upStationId,
           name: item.upStationName,
-          lat: item.upStationLatitude,
-          lng: item.upStationLongitude,
+          latitude: item.upStationLatitude,
+          longitude: item.upStationLongitude,
           type: "up",
         },
-      ];
+      ]);
 
       const downStations = [];
       for (let dowStation of item.downStations) {
         downStations.push({
           id: dowStation.id,
           name: dowStation.stationName,
-          lat: dowStation.latitude,
-          lng: dowStation.longitude,
+          latitude: dowStation.latitude,
+          longitude: dowStation.longitude,
           type: "down",
         });
       }
 
-      this.downStations = downStations;
+      this.downStations = toBD09ForList(downStations);
       this.center.lng = item.upStationLongitude;
       this.center.lat = item.upStationLatitude;
       this.zoom = 16;

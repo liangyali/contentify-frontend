@@ -42,8 +42,8 @@
               v-model="form.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              active-value="AVAILABLE"
-              inactive-value="UNAVAILABLE"
+              :active-value="1"
+              :inactive-value="2"
             >
             </el-switch>
           </el-form-item>

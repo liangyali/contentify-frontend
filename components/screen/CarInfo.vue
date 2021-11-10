@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { toBD09ForList } from "~/utils";
 export default {
   data() {
     return {
@@ -51,7 +52,7 @@ export default {
       this.$axios
         .get("/api/v1/overview/active_drivers")
         .then((res) => {
-          this.items = res.data.data || {};
+          this.items = toBD09ForList(res.data.data || []);
         })
         .finally(() => {
           this.loading = false;

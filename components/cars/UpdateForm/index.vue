@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 15px">
+  <div style="padding: 15px" v-loading="loading">
     <el-form
       :model="form"
       status-icon
@@ -102,6 +102,7 @@ export default {
     return {
       form: {},
       updating: false,
+      loading: false,
       rules: {
         carNumber: [
           {
