@@ -1,10 +1,11 @@
+const webpack = require("webpack")
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: '华北航线车辆运营管理系统',
+    title: '站点管理系统',
     htmlAttrs: {
       lang: 'en'
     },
@@ -30,8 +31,7 @@ export default {
     '@/plugins/icons',
     '@/plugins/axios',
     '@/plugins/permission',
-    '@/plugins/baidu-map',
-    '@/plugins/vue-timers'
+    '@/plugins/quill'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,7 +54,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.baseURL || 'http://localhost:50003',
+    baseURL: process.env.baseURL || 'http://localhost:40003',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -89,9 +89,9 @@ export default {
           required: false,
         },
         endpoints: {
-          login: { url: '/api/v1/auth/token', method: 'post' },
-          user: { url: '/api/v1/users/current', method: 'get' },
-          logout: { url: '/api/v1/auth/logout', method: 'get' },
+          login: { url: '/admin/api/v1/auth/token', method: 'post' },
+          user: { url: '/admin/api/v1/users/current', method: 'get' },
+          logout: { url: '/admin/api/v1/auth/logout', method: 'get' },
         }
       }
     }
@@ -99,9 +99,9 @@ export default {
   router: {
     mode: 'hash',
     middleware: ['auth'],
-    base: process.env.NODE_ENV === 'production' ? '/dache' : '',
+    base: process.env.NODE_ENV === 'production' ? '' : '',
   },
   env: {
-    staticPrefix: process.env.NODE_ENV === 'production' ? '/dache' : ''
+    staticPrefix: process.env.NODE_ENV === 'production' ? '' : ''
   }
 }

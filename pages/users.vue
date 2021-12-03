@@ -3,7 +3,7 @@
     <template v-slot:actions
       ><CreateFormButton
         @success="reload"
-        v-permission="['manage:users']"
+        v-permission="['admin.users:full']"
       /><el-button
         type="default"
         size="mini"
@@ -15,18 +15,19 @@
     >
     <el-form :inline="true" :model="filter" size="mini">
       <div class="filter">
-        <el-form-item label="已开通系统" label-width="100px">
-          <el-select
-            v-model="filter.enabledSystem"
-            multiple=""
-            placeholder="选择开通的系统"
+        <el-form-item label="用户名" label-width="60px">
+          <el-input
+            :rows="5"
+            placeholder="请输入用户名"
             clearable=""
-            @change="handleFilterChange"
+            v-model="filter.username"
           >
-            <el-option label="叫车" value="call"> </el-option>
-            <el-option label="司机" value="driver"> </el-option>
-            <el-option label="调度" value="manage"> </el-option>
-          </el-select>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="handleFilterChange"
+            ></el-button>
+          </el-input>
         </el-form-item>
       </div>
     </el-form>
@@ -36,70 +37,17 @@
         style="width: 100%"
         v-loading="loading"
       >
-        <el-table-column prop="id" label="编号" width="100"> </el-table-column>
-        <el-table-column label="头像" width="100">
-          <template slot-scope="scope">
-            <el-avatar :src="scope.row.picture"></el-avatar>
-          </template>
+        <el-table-column prop="id" label="编号" fixed="" width="100">
         </el-table-column>
-        <el-table-column prop="staffNo" label="员工号" width="100">
+        <el-table-column prop="username" fixed="" label="用户名" width="100">
         </el-table-column>
-        <el-table-column prop="wxUserNickName" label="关联微信号" width="150">
-          <template slot-scope="scope">
-            <div v-if="scope.row.wxUserId == 0" style="color: red">未绑定</div>
-            <div v-if="scope.row.wxUserId != 0">
-              {{ scope.row.wxUserNickName }}
-            </div>
-          </template>
+        <el-table-column prop="realName" fixed="" label="姓名" width="100">
         </el-table-column>
-        <el-table-column prop="wxUserNickName" label="是否关联微信" width="150">
-          <template slot-scope="scope">
-            <div v-if="scope.row.wxUserId == 0" v-permission="['manage:users']">
-              <el-button
-                icon="el-icon-link"
-                type="primary"
-                size="mini"
-                @click="handleShowBindVisiable(scope.row)"
-                >关联微信</el-button
-              >
-            </div>
-            <div v-if="scope.row.wxUserId != 0" v-permission="['manage:users']">
-              <el-popconfirm
-                title="确认取消微信绑定"
-                @confirm="doUnbindWxUser(scope.row)"
-              >
-                <el-button
-                  slot="reference"
-                  type="danger"
-                  size="mini"
-                  icon="el-icon-link"
-                  :loading="scope.row.deleting"
-                  >取消关联</el-button
-                >
-              </el-popconfirm>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="realName" label="姓名" width="100">
-        </el-table-column>
-
         <el-table-column prop="phoneNumber" label="手机号" width="180">
         </el-table-column>
-
-        <el-table-column label="已开通系统" width="150">
-          <template slot-scope="scope">
-            <el-tag type="success" size="mini" v-if="scope.row.isEnabledCall"
-              >叫车</el-tag
-            >
-            <el-tag type="success" size="mini" v-if="scope.row.isEnabledDriver"
-              >司机</el-tag
-            >
-            <el-tag type="success" size="mini" v-if="scope.row.isEnabledManage"
-              >调度</el-tag
-            >
-          </template>
+        <el-table-column prop="email" label="电子邮箱" width="180">
         </el-table-column>
-        <el-table-column prop="companyName" label="所属公司" width="200">
+        <el-table-column prop="createdAt" label="创建时间" width="180">
         </el-table-column>
         <el-table-column prop="updatedAt" label="更新时间" width="180">
         </el-table-column>
@@ -109,19 +57,19 @@
             <el-button
               size="mini"
               @click="handleEdit(scope.row)"
-              v-permission="['manage:users']"
+              v-permission="['admin.users:full']"
               >编辑</el-button
             >
             <el-button
               size="mini"
               @click="handleResetPassword(scope.row)"
-              v-permission="['manage:users']"
+              v-permission="['admin.users:full']"
               >重置密码</el-button
             >
             <el-popconfirm
               title="确定删除吗？"
               @confirm="doDelete(scope.row)"
-              v-permission="['manage:users']"
+              v-permission="['admin.users:full']"
             >
               <el-button
                 slot="reference"
@@ -147,7 +95,7 @@
       </div>
     </el-card>
     <el-drawer
-      title="编辑"
+      title="编辑用户信息"
       width="650px"
       :visible.sync="showVisiable"
       direction="rtl"
@@ -172,19 +120,6 @@
         @cancel="showResetPasswordVisiable = false"
       />
     </el-drawer>
-    <el-drawer
-      title="关联微信"
-      width="650px"
-      :visible.sync="showBindVisiable"
-      direction="rtl"
-      append-to-body
-    >
-      <BindForm
-        :item="bindItem"
-        @success="onBindSuccess"
-        @cancel="showBindVisiable = false"
-      />
-    </el-drawer>
   </page-container>
 </template>
 
@@ -192,7 +127,6 @@
 import qs from "qs";
 import CreateFormButton from "~/components/users/CreateFormButton";
 import UpdateForm from "~/components/users/UpdateForm";
-import BindForm from "~/components/users/BindForm";
 import ResetPasswordForm from "~/components/users/ResetPasswordForm";
 export default {
   data() {
@@ -200,7 +134,6 @@ export default {
       filter: { pageSize: 12 },
       loading: false,
       item: {},
-      bindItem: {},
       resetPasswordItem: {},
       showVisiable: false,
       showBindVisiable: false,
@@ -216,7 +149,6 @@ export default {
   components: {
     CreateFormButton,
     UpdateForm,
-    BindForm,
     ResetPasswordForm,
   },
   created() {
@@ -237,7 +169,7 @@ export default {
     getUsers(params) {
       this.loading = true;
       this.$axios
-        .get(`/api/v1/users`, {
+        .get(`/admin/api/v1/users`, {
           params: {
             ...this.filter,
             ...this.$route.params,
@@ -291,23 +223,10 @@ export default {
       };
       this.showResetPasswordVisiable = true;
     },
-    doUnbindWxUser(row) {
-      row.deleting = true;
-      this.$axios
-        .post(`/api/v1/users/unbind_wx_user`, {
-          sysUserId: row.id,
-        })
-        .then(() => {
-          this.reload();
-        })
-        .finally(() => {
-          row.deleting = false;
-        });
-    },
     doDelete(row) {
       row.deleting = true;
       this.$axios
-        .delete(`/api/v1/users/${row.id}`)
+        .delete(`/admin/api/v1/users/${row.id}`)
         .then(() => {
           this.reload();
         })

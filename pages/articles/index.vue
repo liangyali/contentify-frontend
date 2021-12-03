@@ -1,9 +1,9 @@
 <template>
-  <page-container title="角色列表">
+  <page-container title="文章管理">
     <template v-slot:actions
       ><CreateFormButton
         @success="reload"
-        v-permission="['admin.roles:full']"
+        v-permission="['admin.articles:full']"
       /><el-button
         type="default"
         size="mini"
@@ -13,19 +13,22 @@
         >刷新</el-button
       ></template
     >
+    <el-form :inline="true" :model="filter" size="mini">
+      <div class="filter">
+        <el-form-item label="标签" label-width="40px">
+          <tag-select @change="handleFilterChange" v-model="filter.tagIds" />
+        </el-form-item>
+      </div>
+    </el-form>
     <el-card>
       <el-table
-        :data="roles.records || []"
+        :data="articles.records || []"
         style="width: 100%"
         v-loading="loading"
       >
         <el-table-column prop="id" label="编号" width="100"> </el-table-column>
-        <el-table-column prop="name" label="角色名称" width="100">
-        </el-table-column>
-        <el-table-column prop="description" label="描述">
-          <template slot-scope="scope">
-            {{ scope.row.description || "--" }}
-          </template>
+        <el-table-column prop="title" label="标题"> </el-table-column>
+        <el-table-column prop="author" label="作者" width="100">
         </el-table-column>
         <el-table-column prop="createdAt" label="创建时间" width="180">
         </el-table-column>
@@ -39,16 +42,16 @@
             <el-button
               size="mini"
               @click="handleEdit(scope.row)"
-              v-permission="['admin.roles:full']"
+              v-permission="['admin.articles:full']"
               >编辑</el-button
             >
             <el-popconfirm
               title="确定删除吗？"
               @confirm="doDelete(scope.row)"
-              v-permission="['admin.roles:full']"
+              v-permission="['admin.articles:full']"
             >
               <el-button
-                v-permission="['admin.roles:full']"
+                v-permission="['admin.articles:full']"
                 slot="reference"
                 type="danger"
                 size="mini"
@@ -61,19 +64,19 @@
       </el-table>
       <div class="pagination">
         <el-pagination
-          v-if="roles.total > 0"
+          v-if="articles.total > 0"
           @current-change="handleCurrentChange"
-          :current-page="roles.current"
+          :current-page="articles.current"
           :page-size="filter.pageSize"
           background
           layout="total,prev, pager, next"
-          :total="roles.total"
+          :total="articles.total"
         ></el-pagination>
       </div>
     </el-card>
     <el-drawer
-      title="编辑"
-      width="650px"
+      title="编辑文章"
+      size="100%"
       :visible.sync="showVisiable"
       direction="rtl"
       append-to-body
@@ -89,8 +92,9 @@
 
 <script>
 import qs from "qs";
-import CreateFormButton from "~/components/roles/CreateFormButton";
-import UpdateForm from "~/components/roles/UpdateForm";
+import CreateFormButton from "~/components/article/CreateFormButton";
+import UpdateForm from "~/components/article/UpdateForm";
+import TagSelect from "~/components/article/TagSelect.vue";
 export default {
   data() {
     return {
@@ -100,7 +104,7 @@ export default {
       item: {
         id: 0,
       },
-      roles: {
+      articles: {
         total: 0,
         pageNum: 1,
         pageSize: 1,
@@ -111,22 +115,23 @@ export default {
   components: {
     CreateFormButton,
     UpdateForm,
+    TagSelect,
   },
   created() {
-    this.getRoles({
+    this.getArticle({
       ...this.$route.query,
     });
   },
   methods: {
     reload() {
-      this.getRoles({
+      this.getArticle({
         ...this.$route.query,
       });
     },
     doDelete(row) {
       row.deleting = true;
       this.$axios
-        .delete(`/admin/api/v1/roles/${row.id}`)
+        .delete(`/admin/api/v1/articles/${row.id}`)
         .then(() => {
           this.reload();
         })
@@ -134,10 +139,10 @@ export default {
           row.deleting = false;
         });
     },
-    getRoles(params) {
+    getArticle(params) {
       this.loading = true;
       this.$axios
-        .get(`/admin/api/v1/roles`, {
+        .get(`/admin/api/v1/articles`, {
           params: {
             ...this.filter,
             ...this.$route.params,
@@ -148,7 +153,7 @@ export default {
           },
         })
         .then((res) => {
-          this.roles = {
+          this.articles = {
             ...res.data.data,
           };
         })
@@ -166,7 +171,7 @@ export default {
         query: params,
       });
 
-      this.getRoles(params);
+      this.getArticle(params);
     },
     handleFilterChange() {
       const params = {
@@ -179,7 +184,7 @@ export default {
         query: params,
       });
 
-      this.getRoles(params);
+      this.getArticle(params);
     },
     handleEdit(row) {
       this.item = row;

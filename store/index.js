@@ -96,7 +96,7 @@ export const actions = {
     }) {
         commit('setMenuLoading', true)
         try {
-            let { data } = await this.$axios.get('/api/v1/menu');
+            let { data } = await this.$axios.get('/admin/api/v1/menu');
             commit('setMenuLoading', false)
             data && commit('setMenus', data.data);
 

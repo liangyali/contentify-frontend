@@ -1,9 +1,7 @@
 <template>
   <section class="container">
-    <div style="margin-top: -150px">
-      <img :src="getImgUrl('/img/logo.png')" height="60" />
-    </div>
-    <div class="t-title">来巴 Line Bus</div>
+    <div style="margin-top: -150px"><img src="/img/logo.svg" /></div>
+    <div class="t-title">萃瑞宝信息管理系统</div>
   </section>
 </template>
 

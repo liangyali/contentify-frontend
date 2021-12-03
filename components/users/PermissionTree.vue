@@ -39,7 +39,7 @@ export default {
     getPermissions() {
       this.loading = true;
       this.$axios
-        .get(`/api/v1/options/permissions`)
+        .get(`/admin/api/v1/options/permissions`)
         .then((res) => {
           this.options = this.processData(res.data.data);
         })

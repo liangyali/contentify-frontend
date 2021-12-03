@@ -8,7 +8,7 @@
       :rules="rules"
       size="small"
     >
-      <el-form-item label="工号"> {{ item.staffNo }} </el-form-item>
+      <el-form-item label="用户名"> {{ item.username }} </el-form-item>
       <el-form-item label="姓名"> {{ item.realName }} </el-form-item>
       <el-form-item label="新密码" prop="password">
         <el-input
@@ -21,7 +21,6 @@
       <el-form-item>
         <el-button
           type="primary"
-          plain
           :loading="reseting"
           @click="submitForm('form')"
           >重置密码</el-button

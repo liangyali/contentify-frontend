@@ -94,7 +94,7 @@ export default {
         if (valid) {
           this.creating = true;
           this.$axios
-            .post(`/api/v1/users/change_password`, {
+            .post(`/admin/api/v1/users/change_password`, {
               ...this.form,
             })
             .then((res) => {

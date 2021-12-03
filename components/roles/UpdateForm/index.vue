@@ -89,7 +89,7 @@ export default {
       }
       this.loading = true;
       this.$axios
-        .get(`/api/v1/roles/${this.id}`)
+        .get(`/admin/api/v1/roles/${this.id}`)
         .then((res) => {
           this.form = {
             ...(res.data.data || {}),
@@ -104,7 +104,7 @@ export default {
         if (valid) {
           this.updating = true;
           this.$axios
-            .post(`/api/v1/roles/${this.id}`, {
+            .post(`/admin/api/v1/roles/${this.id}`, {
               ...this.form,
             })
             .then((res) => {

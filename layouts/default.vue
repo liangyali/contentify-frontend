@@ -2,10 +2,14 @@
   <el-container class="main-container">
     <el-aside :width="!collapse ? '200px' : '48px'" class="main-aside">
       <div v-if="collapse == false" class="logo-container">
-        <img :src="getImgUrl('/img/logo.png')" height="23" />
+        <img src="/img/logo.svg" width="150" />
       </div>
       <div v-if="collapse == true" class="logo-container">
-        <img :src="getImgUrl('/img/logo-mini.png')" height="23" />
+        <img
+          :src="getImgUrl('/img/mini-logo.png')"
+          height="32"
+          style="margin-top: 10px"
+        />
       </div>
       <div
         v-if="menuLoading"
@@ -44,9 +48,7 @@
         <Hamburger @toggleClick="toggle" :isActive="!collapse"></Hamburger>
         <div class="operate-list">
           <span style="margin: 0 5px; font-width: 600">
-            <el-tag size="small"
-              >工号: &nbsp;{{ this.$auth.user.staffNo }}</el-tag
-            >
+            {{ this.$auth.user.username }}
           </span>
           <el-button size="mini" round @click="logout" type="primary" plain
             >退出</el-button
@@ -117,6 +119,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+
+body {
+  background: #fdfeff !important;
 }
 
 *,
@@ -196,7 +202,7 @@ body,
   text-align: center;
   vertical-align: middle;
   border-radius: 0px 0 0 5px;
-  padding-top: 12px;
+  padding-top: 5px;
 }
 
 .el-menu-item,

@@ -1,34 +1,37 @@
 <template>
-  <el-checkbox-group
-    :loading="loading"
+  <el-select
     v-model="currentValue"
+    multiple
+    filterable
+    remote
+    reserve-keyword
+    placeholder="请输入标签进行搜索"
+    :loading="loading"
+    style="width: 100%"
     @change="handleChange"
   >
-    <el-checkbox
-      v-for="(item, index) in options"
-      :label="item.id"
-      :key="index"
-      >{{ item.name }}</el-checkbox
+    <el-option
+      v-for="item in options"
+      :key="item.id"
+      :label="item.name"
+      :value="item.id"
     >
-  </el-checkbox-group>
+    </el-option>
+  </el-select>
 </template>
 
 <script>
 export default {
   props: {
     value: {},
-    roleType: {},
   },
   watch: {
     value(val) {
       this.currentValue = val || [];
     },
-    roleType(val) {
-      this.getRoles();
-    },
   },
   created() {
-    this.getRoles();
+    this.getTags();
   },
   data() {
     return {
@@ -40,11 +43,12 @@ export default {
   methods: {
     handleChange(v) {
       this.$emit("input", v);
+      this.$emit("change", v);
     },
-    getRoles() {
+    getTags() {
       this.loading = true;
       this.$axios
-        .get(`/admin/api/v1/options/roles`)
+        .get(`/admin/api/v1/options/product_tags`)
         .then((res) => {
           this.options = res.data.data;
         })

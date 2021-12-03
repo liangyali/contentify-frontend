@@ -87,7 +87,7 @@ export default {
         if (valid) {
           this.creating = true;
           this.$axios
-            .post(`/api/v1/roles`, {
+            .post(`/admin/api/v1/roles`, {
               ...this.form,
             })
             .then((res) => {
