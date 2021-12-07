@@ -11,41 +11,48 @@
       size="small"
       label-position="left"
     >
-      <el-card
-        v-for="(item, index) in form.items"
-        :key="index"
-        style="margin-top: 10px"
-      >
-        <div class="banner">
-          <BannerUpload type="banner" v-model="item.imgUrl" />
-          <div>
-            <el-form-item label="链接地址" style="margin-left: 20px">
-              <el-input
-                type="input"
-                placeholder="请输入图片描述"
-                v-model="item.link"
-                maxlength="100"
-                style="width: 400px"
-              />
-            </el-form-item>
-            <el-form-item label="图片描述" style="margin-left: 20px">
-              <el-input
-                type="textarea"
-                :rows="4"
-                placeholder="请输入图片描述"
-                v-model="item.imgAlt"
-                maxlength="100"
-                style="width: 400px"
-              />
-            </el-form-item>
-          </div>
-          <div style="padding-left: 25px">
-            <el-button type="danger" size="mini" @click="handleDelete(index)"
-              >删除此条</el-button
-            >
-          </div>
-        </div>
-      </el-card>
+      <draggable v-model="form.items">
+        <transition-group>
+          <el-card
+            v-for="(item, index) in form.items"
+            :key="index"
+            style="margin-top: 10px"
+          >
+            <div class="banner">
+              <BannerUpload type="banner" v-model="item.imgUrl" />
+              <div>
+                <el-form-item label="链接地址" style="margin-left: 20px">
+                  <el-input
+                    type="input"
+                    placeholder="请输入图片描述"
+                    v-model="item.link"
+                    maxlength="100"
+                    style="width: 400px"
+                  />
+                </el-form-item>
+                <el-form-item label="图片描述" style="margin-left: 20px">
+                  <el-input
+                    type="textarea"
+                    :rows="4"
+                    placeholder="请输入图片描述"
+                    v-model="item.imgAlt"
+                    maxlength="100"
+                    style="width: 400px"
+                  />
+                </el-form-item>
+              </div>
+              <div style="padding-left: 25px">
+                <el-button
+                  type="danger"
+                  size="mini"
+                  @click="handleDelete(index)"
+                  >删除此条</el-button
+                >
+              </div>
+            </div>
+          </el-card>
+        </transition-group>
+      </draggable>
       <div class="add-button-container">
         <el-button
           size="mini"
@@ -69,13 +76,14 @@
 </template>
 
 <script>
+import draggable from "vuedraggable";
 export default {
   props: {
     id: {
       default: () => 0,
     },
   },
-  components: {},
+  components: { draggable },
   data() {
     return {
       showVisiable: false,
