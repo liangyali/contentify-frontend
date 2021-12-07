@@ -99,7 +99,7 @@ export default {
   router: {
     mode: 'hash',
     middleware: ['auth'],
-    base: process.env.NODE_ENV === 'production' ? '' : '',
+    base: process.env.NODE_ENV === 'production' ? '/contentify' : '',
   },
   env: {
     staticPrefix: process.env.NODE_ENV === 'production' ? '' : ''

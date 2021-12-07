@@ -43,15 +43,31 @@
               <TagSelect v-model="form.tagIds" /> </el-form-item
           ></el-card>
           <el-card style="margin-top: 20px">
-            <el-form-item
-              label="关键词-应用于页面的搜索引擎使用"
-              prop="keyword"
-            >
+            <div slot="header" class="clearfix">
+              <span>SEO设置</span>
+            </div>
+            <el-form-item label="标题 title" prop="keyword">
+              <el-input
+                type="text"
+                v-model="form.pageTitle"
+                :maxlength="200"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="关键词 keywords" prop="keyword">
+              <el-input
+                type="text"
+                v-model="form.pageKeywords"
+                :maxlength="200"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="描述 description" prop="keyword">
               <el-input
                 type="textarea"
-                :rows="3"
-                v-model="form.keyword"
-                :maxlength="200"
+                :rows="2"
+                v-model="form.pageDescription"
+                :maxlength="500"
                 autocomplete="off"
               ></el-input>
             </el-form-item>

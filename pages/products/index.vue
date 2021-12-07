@@ -21,6 +21,12 @@
         </el-form-item>
       </div>
     </el-form>
+    <div
+      v-if="products.records.length == 0 && loading == false"
+      class="not-found"
+    >
+      没有找到商品数据
+    </div>
     <div class="products" v-loading="loading">
       <el-card
         class="product"
@@ -70,7 +76,7 @@
         v-if="products.total > 0"
         @current-change="handleCurrentChange"
         :current-page="products.current"
-        :page-size="filter.pageSize"
+        :page-size="filter.pageSize - 0"
         background
         layout="total,prev, pager, next"
         :total="products.total"
@@ -120,6 +126,10 @@ export default {
     TagSelect,
   },
   created() {
+    this.filter = {
+      ...this.filter,
+      ...this.$route.query,
+    };
     this.getArticle({
       ...this.$route.query,
     });

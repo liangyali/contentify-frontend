@@ -1,23 +1,25 @@
 <template>
-  <el-select
-    v-model="currentValue"
-    multiple
-    filterable
-    remote
-    reserve-keyword
-    placeholder="请输入标签进行搜索"
-    :loading="loading"
-    style="width: 100%"
-    @change="handleChange"
-  >
-    <el-option
-      v-for="item in options"
-      :key="item.id"
-      :label="item.name"
-      :value="item.id"
+  <div>
+    <el-select
+      v-model="currentValue"
+      multiple
+      filterable
+      remote
+      reserve-keyword
+      placeholder="请输入标签进行搜索"
+      :loading="loading"
+      style="width: 100%"
+      @change="handleChange"
     >
-    </el-option>
-  </el-select>
+      <el-option
+        v-for="item in options"
+        :key="item.id"
+        :label="item.name"
+        :value="item.id"
+      >
+      </el-option>
+    </el-select>
+  </div>
 </template>
 
 <script>
@@ -27,7 +29,7 @@ export default {
   },
   watch: {
     value(val) {
-      this.currentValue = val || [];
+      this.currentValue = this.transform(val || []);
     },
   },
   created() {
@@ -35,7 +37,7 @@ export default {
   },
   data() {
     return {
-      currentValue: this.value || [],
+      currentValue: this.transform(this.value || []),
       options: [],
       loading: true,
     };
@@ -55,6 +57,17 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    transform(v) {
+      if (typeof v == "string") {
+        return [Number(v)];
+      }
+
+      if (Array.isArray(v)) {
+        return v.map((item) => Number(item));
+      }
+
+      return v;
     },
   },
 };

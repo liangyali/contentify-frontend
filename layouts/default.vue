@@ -2,11 +2,11 @@
   <el-container class="main-container">
     <el-aside :width="!collapse ? '200px' : '48px'" class="main-aside">
       <div v-if="collapse == false" class="logo-container">
-        <img src="/img/logo.svg" width="150" />
+        <img src="~/static/img/logo.svg" width="150" />
       </div>
       <div v-if="collapse == true" class="logo-container">
         <img
-          :src="getImgUrl('/img/mini-logo.png')"
+          src="~/static/img/mini-logo.png"
           height="32"
           style="margin-top: 10px"
         />
@@ -256,5 +256,13 @@ body,
   color: #8289a8;
   text-align: center;
   width: 200px;
+}
+
+.not-found {
+  padding: 30px;
+  font-size: 18px;
+  font-weight: 300;
+  text-align: center;
+  border: 1px solid #c0c4cc;
 }
 </style>

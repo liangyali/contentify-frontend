@@ -27,7 +27,7 @@ export default {
   },
   watch: {
     value(val) {
-      this.currentValue = val || [];
+      this.currentValue = this.transform(val || []);
     },
   },
   created() {
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      currentValue: this.value || [],
+      currentValue: this.transform(this.value || []),
       options: [],
       loading: true,
     };
@@ -55,6 +55,17 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    transform(v) {
+      if (typeof v == "string") {
+        return [Number(v)];
+      }
+
+      if (Array.isArray(v)) {
+        return v.map((item) => Number(item));
+      }
+
+      return v;
     },
   },
 };

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build-test": "baseURL=http://52.81.87.239:50003 nuxt build",
+    "build-test": "baseURL=http://52.81.87.239:40003 nuxt build",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
