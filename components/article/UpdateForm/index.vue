@@ -49,6 +49,12 @@
                 <el-radio-button :label="false">草稿</el-radio-button>
               </el-radio-group>
             </el-form-item>
+            <el-form-item label="排序权重">
+              <el-input-number
+                v-model="form.position"
+                :step="1"
+              ></el-input-number>
+            </el-form-item>
 
             <el-form-item label="作者 " prop="author">
               <el-input

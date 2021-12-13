@@ -59,6 +59,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ],
     transpile: [/^element-ui/],
     extend(config, ctx) { },
     analyze: false,
@@ -99,7 +105,7 @@ export default {
   router: {
     mode: 'hash',
     middleware: ['auth'],
-    base: process.env.NODE_ENV === 'production' ? '/contentify' : '',
+    base: process.env.NODE_ENV === 'production' ? '/' : '',
   },
   env: {
     staticPrefix: process.env.NODE_ENV === 'production' ? '' : ''

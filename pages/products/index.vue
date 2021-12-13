@@ -106,7 +106,7 @@ import TagSelect from "~/components/products/TagSelect.vue";
 export default {
   data() {
     return {
-      filter: { pageSize: 12 },
+      filter: { pageSize: 15 },
       loading: false,
       showVisiable: false,
       item: {
@@ -213,8 +213,8 @@ export default {
 .products {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: flex-start;
+  justify-content: flex-start;
+  align-content: center;
 }
 
 .image {
@@ -242,6 +242,8 @@ export default {
   width: 250px;
   font-size: 15px;
   position: relative;
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .product-name {

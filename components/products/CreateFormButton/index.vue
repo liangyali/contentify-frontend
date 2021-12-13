@@ -32,9 +32,24 @@
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
+              <el-form-item label="商品参数" label-width="0">
+                <Editor v-model="form.summary" upload_type="product_img" />
+              </el-form-item>
 
               <el-form-item label="产品介绍" label-width="0">
                 <Editor v-model="form.bodyHtml" upload_type="product_img" />
+              </el-form-item>
+              <el-form-item label="商品Banner图" prop="banner">
+                <BannerImageUpload type="article_cover" v-model="form.banner" />
+              </el-form-item>
+              <el-form-item label="商品Banner文字" prop="summary1">
+                <el-input
+                  type="textarea"
+                  :rows="3"
+                  v-model="form.summary1"
+                  :maxlength="500"
+                  autocomplete="off"
+                ></el-input>
               </el-form-item>
             </el-card>
           </el-main>
@@ -45,6 +60,12 @@
                   <el-radio-button :label="1">上架</el-radio-button>
                   <el-radio-button :label="0">下架</el-radio-button>
                 </el-radio-group>
+              </el-form-item>
+              <el-form-item label="排序权重">
+                <el-input-number
+                  v-model="form.position"
+                  :step="1"
+                ></el-input-number>
               </el-form-item>
 
               <el-form-item label="产品封面图" prop="coverImg">
@@ -105,9 +126,11 @@
 
 <script>
 import TagSelect from "../TagSelect";
+import BannerImageUpload from "../BannerImageUpload";
 export default {
   components: {
     TagSelect,
+    BannerImageUpload,
   },
   data() {
     return {

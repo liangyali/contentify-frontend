@@ -40,6 +40,9 @@
 </template>
 
 <script>
+import Quill from "quill";
+import QuillResize, { PlaceholderRegister } from "quill-resize-module";
+
 export default {
   props: {
     value: {
@@ -49,6 +52,9 @@ export default {
     upload_type: {
       type: String,
       default: () => "",
+    },
+    height: {
+      default: () => "300px",
     },
   },
   watch: {
@@ -64,6 +70,17 @@ export default {
       type: "",
       editorOption: {
         modules: {
+          resize: {
+            // See optional "config" below
+            modules: ["DisplaySize", "Resize", "Keyboard"],
+            image: {
+              attribute: ["width", "height"],
+              limit: {
+                minWidth: 200,
+                ratio: 0.5625,
+              },
+            },
+          },
           toolbar: {
             container: [
               ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -156,7 +173,5 @@ export default {
 
 <style scoped>
 .editor >>> .ql-editor {
-  min-height: 610px;
-  max-height: 672px;
 }
 </style>

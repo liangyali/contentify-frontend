@@ -75,6 +75,12 @@
                   v-model="form.coverImg"
                 />
               </el-form-item>
+              <el-form-item label="排序权重">
+                <el-input-number
+                  v-model="form.position"
+                  :step="1"
+                ></el-input-number>
+              </el-form-item>
               <el-form-item label="标签" prop="permissionIds">
                 <TagSelect v-model="form.tagIds" /> </el-form-item
             ></el-card>

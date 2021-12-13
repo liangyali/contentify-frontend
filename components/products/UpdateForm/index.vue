@@ -13,7 +13,7 @@
       <el-container>
         <el-main>
           <el-card>
-            <el-form-item label="产品名称" prop="name">
+            <el-form-item label="商品名称" prop="name">
               <el-input
                 type="text"
                 v-model="form.name"
@@ -21,9 +21,25 @@
                 autocomplete="off"
               ></el-input>
             </el-form-item>
+            <el-form-item label="商品参数" label-width="0">
+              <Editor v-model="form.summary" upload_type="product_img" />
+            </el-form-item>
 
-            <el-form-item label="产品介绍" label-width="0">
+            <el-form-item label="商品详情" label-width="0">
               <Editor v-model="form.bodyHtml" upload_type="product_img" />
+            </el-form-item>
+
+            <el-form-item label="商品Banner图" prop="banner">
+              <BannerImageUpload type="article_cover" v-model="form.banner" />
+            </el-form-item>
+            <el-form-item label="商品Banner文字" prop="summary1">
+              <el-input
+                type="textarea"
+                :rows="3"
+                v-model="form.summary1"
+                :maxlength="500"
+                autocomplete="off"
+              ></el-input>
             </el-form-item>
           </el-card>
         </el-main>
@@ -34,6 +50,12 @@
                 <el-radio-button :label="true">上架</el-radio-button>
                 <el-radio-button :label="false">下架</el-radio-button>
               </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序权重">
+              <el-input-number
+                v-model="form.position"
+                :step="1"
+              ></el-input-number>
             </el-form-item>
 
             <el-form-item label="产品封面图" prop="coverImg">
@@ -72,16 +94,18 @@
               ></el-input>
             </el-form-item>
           </el-card>
-          <el-form-item style="margin: 20px">
-            <el-button
-              size="default"
-              type="primary"
-              :loading="updating"
-              @click="submitForm('form')"
-              style="width: 100%"
-              >保存商品</el-button
-            >
-          </el-form-item>
+          <div class="demo-drawer__footer">
+            <el-form-item style="margin: 20px">
+              <el-button
+                size="default"
+                type="primary"
+                :loading="updating"
+                @click="submitForm('form')"
+                style="width: 100%"
+                >保存商品</el-button
+              >
+            </el-form-item>
+          </div>
         </el-aside>
       </el-container>
     </el-form>
@@ -90,6 +114,7 @@
 
 <script>
 import TagSelect from "../TagSelect";
+import BannerImageUpload from "../BannerImageUpload";
 export default {
   props: {
     id: {
@@ -98,6 +123,7 @@ export default {
   },
   components: {
     TagSelect,
+    BannerImageUpload,
   },
   data() {
     return {
