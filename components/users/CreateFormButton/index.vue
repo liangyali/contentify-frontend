@@ -21,7 +21,7 @@
           class="demo-ruleForm"
           size="small"
         >
-          <el-form-item label="用户名" prop="staffNo">
+          <el-form-item label="用户名" prop="username">
             <el-input
               type="text"
               v-model="form.username"
@@ -39,7 +39,7 @@
           </el-form-item>
           <el-form-item label="密码" prop="staffNo">
             <el-input
-              type="text"
+              type="password"
               v-model="form.password"
               :maxlength="20"
               autocomplete="off"
@@ -93,7 +93,7 @@ export default {
       form: {},
       creating: false,
       rules: {
-        staffNo: [
+        username: [
           {
             required: true,
             message: "员工号不能为空",
@@ -118,7 +118,7 @@ export default {
         if (valid) {
           this.creating = true;
           this.$axios
-            .post(`/api/v1/users`, {
+            .post(`/admin/api/v1/users`, {
               ...this.form,
             })
             .then((res) => {

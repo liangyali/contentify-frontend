@@ -95,7 +95,7 @@
           v-model="form.username"
           maxlength="20"
           auto-complete="off"
-          placeholder="员工编号"
+          placeholder="用户名"
         ></el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -128,16 +128,13 @@ export default {
   layout: "full",
   data() {
     return {
-      form: {
-        username: "liangyali",
-        password: "123456",
-      },
+      form: {},
       loading: false,
       rules: {
         username: [
           {
             required: true,
-            message: "账号不能为空",
+            message: "用户名不能为空",
           },
         ],
         password: [

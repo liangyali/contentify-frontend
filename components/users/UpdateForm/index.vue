@@ -9,7 +9,7 @@
       class="demo-ruleForm"
       size="small"
     >
-      <el-form-item label="用户名" prop="staffNo">
+      <el-form-item label="用户名" prop="username">
         {{ form.username }}
       </el-form-item>
       <el-form-item label="姓名" prop="realName">
@@ -72,10 +72,16 @@ export default {
       loading: true,
       updating: false,
       rules: {
-        name: [
+        username: [
           {
             required: true,
-            message: "名称不能为空",
+            message: "用户名不能为空",
+          },
+        ],
+        realName: [
+          {
+            required: true,
+            message: "姓名不能为空",
           },
         ],
       },
