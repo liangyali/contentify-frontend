@@ -1,25 +1,12 @@
 <template>
   <div v-loading="loading">
-    <el-form
-      :model="form"
-      status-icon
-      ref="form"
-      :rules="rules"
-      label-width="100px"
-      class="form"
-      label-position="top"
-      size="small"
-    >
+    <el-form :model="form" status-icon ref="form" :rules="rules" label-width="100px" class="form" label-position="top"
+      size="small">
       <el-container>
         <el-main>
           <el-card>
             <el-form-item label="商品名称" prop="name">
-              <el-input
-                type="text"
-                v-model="form.name"
-                :maxlength="200"
-                autocomplete="off"
-              ></el-input>
+              <el-input type="text" v-model="form.name" :maxlength="200" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="商品参数" label-width="0">
               <Editor v-model="form.summary" upload_type="product_img" />
@@ -33,13 +20,7 @@
               <BannerImageUpload type="article_cover" v-model="form.banner" />
             </el-form-item>
             <el-form-item label="商品Banner文字" prop="summary1">
-              <el-input
-                type="textarea"
-                :rows="3"
-                v-model="form.summary1"
-                :maxlength="500"
-                autocomplete="off"
-              ></el-input>
+              <el-input type="textarea" :rows="3" v-model="form.summary1" :maxlength="500" autocomplete="off"></el-input>
             </el-form-item>
           </el-card>
         </el-main>
@@ -52,58 +33,34 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="排序权重">
-              <el-input-number
-                v-model="form.position"
-                :step="1"
-              ></el-input-number>
+              <el-input-number v-model="form.position" :step="1"></el-input-number>
             </el-form-item>
 
             <el-form-item label="产品封面图" prop="coverImg">
               <SingleImageUpload type="article_cover" v-model="form.coverImg" />
             </el-form-item>
             <el-form-item label="标签" prop="permissionIds">
-              <TagSelect v-model="form.tagIds" /> </el-form-item
-          ></el-card>
+              <TagSelect v-model="form.tagIds" />
+            </el-form-item></el-card>
           <el-card style="margin-top: 20px">
             <div slot="header" class="clearfix">
               <span>SEO设置</span>
             </div>
             <el-form-item label="标题 title" prop="keyword">
-              <el-input
-                type="text"
-                v-model="form.pageTitle"
-                :maxlength="200"
-                autocomplete="off"
-              ></el-input>
+              <el-input type="text" v-model="form.pageTitle" :maxlength="200" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="关键词 keywords" prop="keyword">
-              <el-input
-                type="text"
-                v-model="form.pageKeywords"
-                :maxlength="200"
-                autocomplete="off"
-              ></el-input>
+              <el-input type="text" v-model="form.pageKeywords" :maxlength="200" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="描述 description" prop="keyword">
-              <el-input
-                type="textarea"
-                :rows="2"
-                v-model="form.pageDescription"
-                :maxlength="500"
-                autocomplete="off"
-              ></el-input>
+              <el-input type="textarea" :rows="2" v-model="form.pageDescription" :maxlength="500"
+                autocomplete="off"></el-input>
             </el-form-item>
           </el-card>
           <div class="demo-drawer__footer">
             <el-form-item style="margin: 20px">
-              <el-button
-                size="default"
-                type="primary"
-                :loading="updating"
-                @click="submitForm('form')"
-                style="width: 100%"
-                >保存商品</el-button
-              >
+              <el-button size="default" type="primary" :loading="updating" @click="submitForm('form')"
+                style="width: 100%">保存商品</el-button>
             </el-form-item>
           </div>
         </el-aside>
@@ -201,7 +158,7 @@ export default {
 </script>
 
 <style scoped>
-.form >>> .el-main {
+.form>>>.el-main {
   padding-top: 0px;
 }
 </style>

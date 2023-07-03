@@ -1,54 +1,23 @@
 <template>
   <span>
-    <el-button type="primary" @click="showVisiable = true" size="mini"
-      >新增文章</el-button
-    >
-    <el-drawer
-      title="添加文章"
-      size="100%"
-      :visible.sync="showVisiable"
-      direction="rtl"
-      :rules="rules"
-      append-to-body
-    >
-      <el-form
-        :model="form"
-        status-icon
-        ref="form"
-        :rules="rules"
-        label-width="100px"
-        class="form"
-        size="small"
-        label-position="top"
-      >
+    <el-button type="primary" @click="showVisiable = true" size="mini">新增文章</el-button>
+    <el-drawer title="添加文章" size="100%" :visible.sync="showVisiable" direction="rtl" :rules="rules" append-to-body>
+      <el-form :model="form" status-icon ref="form" :rules="rules" label-width="100px" class="form" size="small"
+        label-position="top">
         <el-container>
           <el-main>
             <el-card>
               <el-form-item label="文章标题" prop="title">
-                <el-input
-                  type="text"
-                  v-model="form.title"
-                  :maxlength="200"
-                  autocomplete="off"
-                ></el-input>
+                <el-input type="text" v-model="form.title" :maxlength="200" autocomplete="off"></el-input>
               </el-form-item>
 
-              <el-form-item
-                label="文章摘要-文章的摘要用于列表显示"
-                prop="summary"
-              >
-                <el-input
-                  type="textarea"
-                  :rows="2"
-                  placeholder="请输入文章摘要"
-                  v-model="form.summary"
-                  maxlength="100"
-                >
+              <el-form-item label="文章摘要-文章的摘要用于列表显示" prop="summary">
+                <el-input type="textarea" :rows="2" placeholder="请输入文章摘要" v-model="form.summary" maxlength="100">
                 </el-input>
               </el-form-item>
 
               <el-form-item label="" prop="permissionIds" label-width="0">
-                <Editor v-model="form.bodyHtml" />
+                <Editor v-model="form.bodyHtml" upload_type="article_img" />
               </el-form-item>
             </el-card>
           </el-main>
@@ -62,67 +31,35 @@
               </el-form-item>
 
               <el-form-item label="作者" prop="author">
-                <el-input
-                  type="text"
-                  v-model="form.author"
-                  :maxlength="50"
-                  autocomplete="off"
-                ></el-input>
+                <el-input type="text" v-model="form.author" :maxlength="50" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="封面图" prop="author">
-                <SingleImageUpload
-                  type="article_cover"
-                  v-model="form.coverImg"
-                />
+                <SingleImageUpload type="article_cover" v-model="form.coverImg" />
               </el-form-item>
               <el-form-item label="排序权重">
-                <el-input-number
-                  v-model="form.position"
-                  :step="1"
-                ></el-input-number>
+                <el-input-number v-model="form.position" :step="1"></el-input-number>
               </el-form-item>
               <el-form-item label="标签" prop="permissionIds">
-                <TagSelect v-model="form.tagIds" /> </el-form-item
-            ></el-card>
+                <TagSelect v-model="form.tagIds" />
+              </el-form-item></el-card>
             <el-card style="margin-top: 20px">
               <div slot="header" class="clearfix">
                 <span>SEO设置</span>
               </div>
               <el-form-item label="标题 title" prop="keyword">
-                <el-input
-                  type="text"
-                  v-model="form.pageTitle"
-                  :maxlength="200"
-                  autocomplete="off"
-                ></el-input>
+                <el-input type="text" v-model="form.pageTitle" :maxlength="200" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="关键词 keywords" prop="keyword">
-                <el-input
-                  type="text"
-                  v-model="form.pageKeywords"
-                  :maxlength="200"
-                  autocomplete="off"
-                ></el-input>
+                <el-input type="text" v-model="form.pageKeywords" :maxlength="200" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="描述 description" prop="keyword">
-                <el-input
-                  type="textarea"
-                  :rows="2"
-                  v-model="form.pageDescription"
-                  :maxlength="500"
-                  autocomplete="off"
-                ></el-input>
+                <el-input type="textarea" :rows="2" v-model="form.pageDescription" :maxlength="500"
+                  autocomplete="off"></el-input>
               </el-form-item>
             </el-card>
             <el-form-item style="margin: 20px">
-              <el-button
-                size="default"
-                type="primary"
-                :loading="creating"
-                @click="submitForm('form')"
-                style="width: 100%"
-                >添加文章</el-button
-              >
+              <el-button size="default" type="primary" :loading="creating" @click="submitForm('form')"
+                style="width: 100%">添加文章</el-button>
             </el-form-item>
           </el-aside>
         </el-container>
@@ -200,7 +137,7 @@ export default {
 </script>
 
 <style scoped>
-.form >>> .el-main {
+.form>>>.el-main {
   padding-top: 0px;
 }
 </style>

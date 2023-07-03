@@ -25,7 +25,7 @@ export const menuRecursion = (list, cur) => {
 }
 
 export const routeUrl = (url) => {
-    return url.includes('http') ? `/frame/?url=${url}` : '/' + url;
+    return (url || '').includes('http') ? `/frame/?url=${url}` : '/' + url;
 }
 
 export function getUUID() {

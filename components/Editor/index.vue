@@ -1,30 +1,13 @@
 <template>
   <div v-loading="uploading">
-    <quill-editor
-      ref="myQuillEditor"
-      class="editor"
-      :content="content"
-      :options="editorOption"
-      @change="onEditorChange($event)"
-    >
+    <quill-editor ref="myQuillEditor" class="editor" :content="content" :options="editorOption"
+      @change="onEditorChange($event)">
     </quill-editor>
 
     <div style="display: none">
-      <el-upload
-        action="#"
-        id="quill-upload"
-        v-show="false"
-        :show-file-list="false"
-        :http-request="handleUpload"
-        :accept="accept"
-      >
-        <el-progress
-          style="width: 200px"
-          :stroke-width="26"
-          :text-inside="true"
-          :percentage="percent"
-          v-if="uploading"
-        />
+      <el-upload action="#" id="quill-upload" v-show="false" :show-file-list="false" :http-request="handleUpload"
+        :accept="accept" ref="upload">
+        <el-progress style="width: 200px" :stroke-width="26" :text-inside="true" :percentage="percent" v-if="uploading" />
         <div v-if="!uploading" class="imgContainer">
           <img v-if="this.value" :src="value" class="avatar" />
           <div v-else>
@@ -40,22 +23,13 @@
 </template>
 
 <script>
-import Quill from "quill";
-import QuillResize, { PlaceholderRegister } from "quill-resize-module";
-
 export default {
   props: {
     value: {
       type: String,
       default: () => "",
     },
-    upload_type: {
-      type: String,
-      default: () => "",
-    },
-    height: {
-      default: () => "300px",
-    },
+    upload_type: {}
   },
   watch: {
     value(html) {
@@ -67,20 +41,9 @@ export default {
       uploading: false,
       percent: 0,
       accept: "*",
-      type: "",
+      type: this.upload_type,
       editorOption: {
         modules: {
-          resize: {
-            // See optional "config" below
-            modules: ["DisplaySize", "Resize", "Keyboard"],
-            image: {
-              attribute: ["width", "height"],
-              limit: {
-                minWidth: 200,
-                ratio: 0.5625,
-              },
-            },
-          },
           toolbar: {
             container: [
               ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -92,7 +55,7 @@ export default {
               [{ color: [] }, { background: [] }], // dropdown with defaults from theme
               [{ font: [] }],
               [{ align: [] }],
-              ["link", "image", "video"],
+              ["image", "video"],
               ["clean"], // remove formatting button
             ],
             handlers: {
@@ -102,7 +65,7 @@ export default {
                   return;
                 }
                 this.type = "rs-img";
-                document.querySelector("#quill-upload input").click();
+                this.$refs.upload.$el.querySelector("input").click();
               },
               video: (value) => {
                 if (!value) {
@@ -110,7 +73,7 @@ export default {
                   return;
                 }
                 this.type = "rs-video";
-                document.querySelector("#quill-upload input").click();
+                this.$refs.upload.$el.querySelector("input").click();
               },
             },
           },
@@ -153,7 +116,12 @@ export default {
 
         if (this.type == "rs-img") {
           const length = quill.getSelection().index;
-          quill.insertEmbed(length, "image", res.data.data.url);
+          quill.insertEmbed(
+            length,
+            "image",
+            res.data.data.url + "?x-oss-process=style/w760"
+          );
+
           // Adjust the cursor to the end
           quill.setSelection(length + 1);
         }
@@ -169,9 +137,3 @@ export default {
   },
 };
 </script>
-
-
-<style scoped>
-.editor >>> .ql-editor {
-}
-</style>

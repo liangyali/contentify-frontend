@@ -8,7 +8,7 @@ export default function ({ store }) {
         if (value && value instanceof Array) {
             const permissionRoles = value
             const hasPermission = roles.some(role => {
-                return permissionRoles.includes(role)
+                return (permissionRoles || []).includes(role)
             })
 
             if (!hasPermission) {

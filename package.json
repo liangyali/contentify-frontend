@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "baseURL=http://52.81.87.239:40003 nuxt",
+    "dev": "baseURL=http://127.0.0.1:40003 nuxt",
     "build-test": "baseURL=https://content-api.zerobytes.cn nuxt build",
     "build": "nuxt build",
     "start": "nuxt start",
